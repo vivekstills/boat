@@ -1,0 +1,5 @@
+{
+  "name": "BetStrike Leaderboard",
+  "description": "A futuristic, responsive leaderboard for the BetStrike monthly competition featuring real-time countdowns, 3D podiums, and dynamic data filtering.",
+  "requestFramePermissions": []
+}
