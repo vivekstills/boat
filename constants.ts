@@ -9,7 +9,7 @@ export const KICK_LINK = 'https://kick.com/imboat';
 export const BONUSES: Bonus[] = [
   {
     title: 'DEPOSIT BONUS',
-    value: '10%',
+    value: '5%',
     icon: 'Zap',
     color: 'from-purple-500 to-indigo-600'
   },

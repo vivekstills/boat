@@ -58,9 +58,6 @@ const App: React.FC = () => {
           {/* Desktop Nav Actions */}
           <div className="hidden md:flex items-center gap-4">
              <div className="bg-white/5 border border-white/10 rounded-lg p-1.5 flex items-center pr-4 gap-4 transition-all hover:border-white/20 hover:bg-white/10">
-                 <div className="px-3 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 rounded text-[10px] text-white font-bold tracking-wider font-display shadow-lg shadow-purple-500/20">
-                    CODE
-                 </div>
                  <span className="font-mono font-bold text-lg text-white tracking-[0.2em]">{REFERRAL_CODE}</span>
                  <button 
                   onClick={handleCopy}
@@ -98,7 +95,7 @@ const App: React.FC = () => {
              >
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 bg-[length:200%_100%] animate-shine opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <span className="relative flex items-center gap-2 font-display z-10 text-black group-hover:text-white transition-colors">
-                  CLAIM OFFER <ExternalLink size={14} />
+                  /BOAT <ExternalLink size={14} />
                 </span>
              </a>
           </div>
