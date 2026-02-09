@@ -57,36 +57,6 @@ const App: React.FC = () => {
 
           {/* Desktop Nav Actions */}
           <div className="hidden md:flex items-center gap-4">
-             <div className="bg-white/5 border border-white/10 rounded-lg p-1.5 flex items-center pr-4 gap-4 transition-all hover:border-white/20 hover:bg-white/10">
-                 <span className="font-mono font-bold text-lg text-white tracking-[0.2em]">{REFERRAL_CODE}</span>
-                 <button 
-                  onClick={handleCopy}
-                  className="hover:text-purple-400 transition-colors relative"
-                  title="Copy Code"
-                 >
-                   <AnimatePresence mode='wait'>
-                    {isCopied ? (
-                      <motion.span 
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.8 }}
-                        className="text-emerald-400 text-xs font-bold font-display"
-                      >
-                        COPIED
-                      </motion.span>
-                    ) : (
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.8 }}
-                      >
-                        <Copy size={16} />
-                      </motion.div>
-                    )}
-                   </AnimatePresence>
-                 </button>
-             </div>
-
              <a 
                href={REFERRAL_LINK}
                target="_blank"
