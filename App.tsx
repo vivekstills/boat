@@ -57,6 +57,39 @@ const App: React.FC = () => {
 
           {/* Desktop Nav Actions */}
           <div className="hidden md:flex items-center gap-4">
+             <div className="bg-white/5 border border-white/10 rounded-lg p-1.5 flex items-center pr-4 gap-4 transition-all hover:border-white/20 hover:bg-white/10">
+                 <div className="px-3 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 rounded text-[10px] text-white font-bold tracking-wider font-display shadow-lg shadow-purple-500/20">
+                    CODE
+                 </div>
+                 <span className="font-mono font-bold text-lg text-white tracking-[0.2em]">{REFERRAL_CODE}</span>
+                 <button 
+                  onClick={handleCopy}
+                  className="hover:text-purple-400 transition-colors relative"
+                  title="Copy Code"
+                 >
+                   <AnimatePresence mode='wait'>
+                    {isCopied ? (
+                      <motion.span 
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        className="text-emerald-400 text-xs font-bold font-display"
+                      >
+                        COPIED
+                      </motion.span>
+                    ) : (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                      >
+                        <Copy size={16} />
+                      </motion.div>
+                    )}
+                   </AnimatePresence>
+                 </button>
+             </div>
+
              <a 
                href={REFERRAL_LINK}
                target="_blank"
@@ -65,7 +98,7 @@ const App: React.FC = () => {
              >
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 bg-[length:200%_100%] animate-shine opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <span className="relative flex items-center gap-2 font-display z-10 text-black group-hover:text-white transition-colors">
-                  /BOAT <ExternalLink size={14} />
+                  CLAIM OFFER <ExternalLink size={14} />
                 </span>
              </a>
           </div>
@@ -195,11 +228,6 @@ const App: React.FC = () => {
       {/* Footer */}
       <footer className="border-t border-white/5 bg-[#010103] py-12 relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
-        <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-center gap-6">
-           <div className="text-slate-600 text-xs font-display tracking-widest uppercase">
-             © 2026 BetStrike. All rights reserved.
-           </div>
-        </div>
       </footer>
 
     </div>
