@@ -1,9 +1,9 @@
 import { Player, Bonus, Region } from './types';
 
-export const TARGET_DATE = '2026-03-05T00:00:00';
+export const TARGET_DATE = '2026-03-10T00:00:00';
 export const REFERRAL_CODE = 'BOAT';
 export const REFERRAL_LINK = 'https://betstrike.com/ref/creator';
-export const DISCORD_LINK = 'https://discord.gg/meMNuXha';
+export const DISCORD_LINK = 'https://discord.gg/zDWv3Ba9b';
 export const KICK_LINK = 'https://kick.com/imboat';
 
 export const BONUSES: Bonus[] = [
