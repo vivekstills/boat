@@ -173,7 +173,7 @@ const App: React.FC = () => {
             transition={{ delay: 0.3 }}
             className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light leading-relaxed"
            >
-             Wager to ascend the ranks. The top 5 elite share the prize pool.
+             Every bet on BetStrike under code "BOAT" counts towards your score.
              <br />
              <span className="text-slate-500 text-sm mt-2 block">Entry Code: <span className="text-white font-mono bg-white/10 px-2 py-0.5 rounded border border-white/10">{REFERRAL_CODE}</span></span>
            </motion.p>
