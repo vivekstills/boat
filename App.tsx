@@ -50,18 +50,8 @@ const App: React.FC = () => {
       <header className="fixed top-0 w-full z-50 bg-[#020205]/60 backdrop-blur-xl border-b border-white/5">
         <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
           
-          {/* Desktop Logo */}
-          <div className="hidden md:flex items-center">
-            <img src="/betstrike-logo.svg" alt="BetStrike Logo" className="h-10 object-contain" />
-          </div>
-          
-          {/* Mobile Logo / Title */}
-          <div className="md:hidden flex items-center gap-2">
-            <img src="/betstrike-logo.svg" alt="BetStrike Logo" className="h-8 object-contain" />
-          </div>
-
           {/* Desktop Nav Actions */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-4 ml-auto">
              <div className="bg-white/5 border border-white/10 rounded-lg p-1.5 flex items-center pr-4 gap-4 transition-all hover:border-white/20 hover:bg-white/10">
                  <div className="px-3 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 rounded text-[10px] text-white font-bold tracking-wider font-display shadow-lg shadow-purple-500/20">
                     CODE
