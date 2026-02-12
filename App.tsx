@@ -52,12 +52,12 @@ const App: React.FC = () => {
           
           {/* Desktop Logo */}
           <div className="hidden md:flex items-center">
-            <img src="/logo.svg" alt="Logo" className="h-10 object-contain" />
+            <img src="/betstrike-logo.svg" alt="BetStrike Logo" className="h-10 object-contain" />
           </div>
           
           {/* Mobile Logo / Title */}
           <div className="md:hidden flex items-center gap-2">
-            <img src="/logo.svg" alt="Logo" className="h-8 object-contain" />
+            <img src="/betstrike-logo.svg" alt="BetStrike Logo" className="h-8 object-contain" />
           </div>
 
           {/* Desktop Nav Actions */}
