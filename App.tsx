@@ -50,22 +50,8 @@ const App: React.FC = () => {
       <header className="fixed top-0 w-full z-50 bg-[#020205]/60 backdrop-blur-xl border-b border-white/5">
         <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
           
-          {/* Desktop Logo */}
-          <div className="hidden md:flex items-center gap-3">
-            <div className="font-display font-bold text-2xl tracking-wider bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
-              BetStrike
-            </div>
-            <div className="text-slate-600 text-sm">|</div>
-            <div className="text-slate-400 text-sm font-medium">Leaderboard</div>
-          </div>
-          
-          {/* Mobile Logo / Title */}
-          <div className="md:hidden flex items-center gap-2">
-            <span className="font-display font-bold text-lg tracking-wider">leaderboard.xyz</span>
-          </div>
-
           {/* Desktop Nav Actions */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-4 ml-auto">
              <div className="bg-white/5 border border-white/10 rounded-lg p-1.5 flex items-center pr-4 gap-4 transition-all hover:border-white/20 hover:bg-white/10">
                  <div className="px-3 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 rounded text-[10px] text-white font-bold tracking-wider font-display shadow-lg shadow-purple-500/20">
                     CODE
@@ -145,7 +131,7 @@ const App: React.FC = () => {
                href={REFERRAL_LINK}
                className="w-full py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold text-center rounded-xl font-display shadow-lg shadow-purple-900/30"
              >
-                VISIT BETSTRIKE
+                VISIT SITE
              </a>
           </motion.div>
         )}
@@ -182,7 +168,7 @@ const App: React.FC = () => {
             transition={{ delay: 0.3 }}
             className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light leading-relaxed"
            >
-             Every bet on BetStrike under code <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 animate-pulse">"BOAT"</span> counts towards your score.
+             Every bet under code <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 animate-pulse">"BOAT"</span> counts towards your score.
            </motion.p>
 
            <CountdownTimer />
@@ -245,7 +231,7 @@ const App: React.FC = () => {
                 Leaderboard.xyz
               </div>
               <p className="text-slate-500 text-sm">
-                Track your progress in the $1,000 monthly race on BetStrike.
+                Track your progress in the $1,000 monthly race.
               </p>
             </div>
 
