@@ -52,7 +52,7 @@ const App: React.FC = () => {
           
           {/* Mobile Logo / Title */}
           <div className="md:hidden flex items-center gap-2">
-            <span className="font-display font-bold text-lg tracking-wider">BETSTRIKE</span>
+            <span className="font-display font-bold text-lg tracking-wider">leaderboat.xyz</span>
           </div>
 
           {/* Desktop Nav Actions */}
