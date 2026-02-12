@@ -228,7 +228,7 @@ const App: React.FC = () => {
             {/* Brand Section */}
             <div className="flex flex-col gap-4">
               <div className="font-display font-bold text-xl tracking-wider bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
-                Leaderboard.xyz
+                leaderboat.xyz
               </div>
               <p className="text-slate-500 text-sm">
                 Track your progress in the $1,000 monthly race.
@@ -268,10 +268,10 @@ const App: React.FC = () => {
           <div className="pt-8 border-t border-white/5">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <p className="text-slate-600 text-xs">
-                © {new Date().getFullYear()} Leaderboard.xyz. All rights reserved.
+                © {new Date().getFullYear()} leaderboat.xyz. All rights reserved.
               </p>
               <p className="text-slate-700 text-xs">
-                Made with 💜 for the community
+                Made with 💜 
               </p>
             </div>
           </div>
