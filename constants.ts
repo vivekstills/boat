@@ -25,9 +25,9 @@ export const BONUSES: Bonus[] = [
 const RAW_PLAYERS = [
   { username: 'niggaboy', wagered: 3660 },
   { username: 'Omixboat', wagered: 1157 },
-  { username: 'plastictrees', wagered: 685 },
-  { username: 'Optimnob', wagered: 610 },
-  { username: 'zetaxy', wagered: 176 },
+  { username: 'plastictrees', wagered: 690 },
+  { username: 'Optimnob', wagered: 675 },
+  { username: 'angelofdeath', wagered: 337 },
 ];
 
 const generateRealData = (region: string): Player[] => {
