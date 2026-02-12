@@ -253,8 +253,8 @@ const App: React.FC = () => {
             <div className="flex flex-col gap-4">
               <h3 className="font-display font-bold text-sm text-slate-400 uppercase tracking-wider">Legal</h3>
               <div className="flex flex-col gap-2">
-                <a href="#" className="text-slate-500 hover:text-purple-400 transition-colors text-sm">Terms of Service</a>
-                <a href="#" className="text-slate-500 hover:text-purple-400 transition-colors text-sm">Privacy Policy</a>
+                <button onClick={() => {}} className="text-slate-500 hover:text-purple-400 transition-colors text-sm text-left cursor-not-allowed opacity-50" aria-disabled="true">Terms of Service (Coming Soon)</button>
+                <button onClick={() => {}} className="text-slate-500 hover:text-purple-400 transition-colors text-sm text-left cursor-not-allowed opacity-50" aria-disabled="true">Privacy Policy (Coming Soon)</button>
               </div>
             </div>
 
