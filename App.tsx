@@ -48,7 +48,7 @@ const App: React.FC = () => {
 
       {/* Header */}
       <header className="fixed top-0 w-full z-50 bg-[#020205]/60 backdrop-blur-xl border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between md:justify-between">
+        <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
           
           {/* Desktop Logo */}
           <div className="hidden md:flex items-center">
