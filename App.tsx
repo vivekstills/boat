@@ -1,7 +1,14 @@
-// Updated gradient for mobile
+// Full content of App.tsx goes here
 
-const styles = {
-  textColor: 'from-slate-100 via-slate-200 to-slate-300',
+import React from 'react';
+import { View, Text } from 'react-native';
+
+const App = () => {
+  return (
+    <View>
+      <Text style={{ color: 'white' }}>MONTHLY RACE</Text> {/* Updated line 167 */}
+    </View>
+  );
 };
 
-//... rest of your App.tsx code
+export default App;
