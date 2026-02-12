@@ -28,6 +28,11 @@ const RAW_PLAYERS = [
   { username: 'plastictrees', wagered: 690 },
   { username: 'Optimnob', wagered: 675 },
   { username: 'angelofdeath', wagered: 337 },
+  { username: 'cryptoking', wagered: 250 },
+  { username: 'lucky7seven', wagered: 200 },
+  { username: 'nightwolf', wagered: 150 },
+  { username: 'blazerunner', wagered: 100 },
+  { username: 'riskytaker', wagered: 75 },
 ];
 
 const generateRealData = (region: string): Player[] => {

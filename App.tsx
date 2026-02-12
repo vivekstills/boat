@@ -48,11 +48,20 @@ const App: React.FC = () => {
 
       {/* Header */}
       <header className="fixed top-0 w-full z-50 bg-[#020205]/60 backdrop-blur-xl border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between md:justify-end">
+        <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+          
+          {/* Desktop Logo */}
+          <div className="hidden md:flex items-center gap-3">
+            <div className="font-display font-bold text-2xl tracking-wider bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
+              BetStrike
+            </div>
+            <div className="text-slate-600 text-sm">|</div>
+            <div className="text-slate-400 text-sm font-medium">Leaderboard</div>
+          </div>
           
           {/* Mobile Logo / Title */}
           <div className="md:hidden flex items-center gap-2">
-            <span className="font-display font-bold text-lg tracking-wider">leaderboat.xyz</span>
+            <span className="font-display font-bold text-lg tracking-wider">leaderboard.xyz</span>
           </div>
 
           {/* Desktop Nav Actions */}
@@ -162,7 +171,7 @@ const App: React.FC = () => {
              transition={{ duration: 0.8, delay: 0.1 }}
              className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-8 tracking-tighter drop-shadow-2xl leading-[0.9]"
            >
-             <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-slate-400">$1,000</span>
+             <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-slate-100 to-slate-300 md:from-white md:via-white md:to-slate-400">$1,000</span>
              <br />
              <span className="text-transparent bg-clip-text bg-gradient-to-b from-slate-200 via-slate-400 to-slate-600 text-4xl md:text-6xl lg:text-7xl">MONTHLY RACE</span>
            </motion.h1>
@@ -173,9 +182,7 @@ const App: React.FC = () => {
             transition={{ delay: 0.3 }}
             className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light leading-relaxed"
            >
-             Every bet on BetStrike under code "BOAT" counts towards your score.
-             <br />
-             <span className="text-slate-500 text-sm mt-2 block">Entry Code: <span className="text-white font-mono bg-white/10 px-2 py-0.5 rounded border border-white/10">{REFERRAL_CODE}</span></span>
+             Every bet on BetStrike under code <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 animate-pulse">"BOAT"</span> counts towards your score.
            </motion.p>
 
            <CountdownTimer />
@@ -228,6 +235,61 @@ const App: React.FC = () => {
       {/* Footer */}
       <footer className="border-t border-white/5 bg-[#010103] py-12 relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
+        
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            
+            {/* Brand Section */}
+            <div className="flex flex-col gap-4">
+              <div className="font-display font-bold text-xl tracking-wider bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
+                Leaderboard.xyz
+              </div>
+              <p className="text-slate-500 text-sm">
+                Track your progress in the $1,000 monthly race on BetStrike.
+              </p>
+            </div>
+
+            {/* Links Section */}
+            <div className="flex flex-col gap-4">
+              <h3 className="font-display font-bold text-sm text-slate-400 uppercase tracking-wider">Legal</h3>
+              <div className="flex flex-col gap-2">
+                <button onClick={() => {}} className="text-slate-500 hover:text-purple-400 transition-colors text-sm text-left cursor-not-allowed opacity-50" aria-disabled="true">Terms of Service (Coming Soon)</button>
+                <button onClick={() => {}} className="text-slate-500 hover:text-purple-400 transition-colors text-sm text-left cursor-not-allowed opacity-50" aria-disabled="true">Privacy Policy (Coming Soon)</button>
+              </div>
+            </div>
+
+            {/* Responsible Gaming */}
+            <div className="flex flex-col gap-4">
+              <h3 className="font-display font-bold text-sm text-slate-400 uppercase tracking-wider">Responsible Gaming</h3>
+              <a 
+                href="https://www.begambleaware.org" 
+                target="_blank" 
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 text-slate-500 hover:text-purple-400 transition-colors text-sm w-fit"
+              >
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded border border-white/10">
+                  <span className="text-xs font-bold">18+</span>
+                  <span className="text-xs">BeGambleAware.org</span>
+                </div>
+              </a>
+              <p className="text-slate-600 text-xs">
+                Please gamble responsibly. If you need help, visit BeGambleAware.org
+              </p>
+            </div>
+          </div>
+
+          {/* Bottom Bar */}
+          <div className="pt-8 border-t border-white/5">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+              <p className="text-slate-600 text-xs">
+                © {new Date().getFullYear()} Leaderboard.xyz. All rights reserved.
+              </p>
+              <p className="text-slate-700 text-xs">
+                Made with 💜 for the community
+              </p>
+            </div>
+          </div>
+        </div>
       </footer>
 
     </div>
