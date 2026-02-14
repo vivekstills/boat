@@ -26,8 +26,8 @@ const RAW_PLAYERS = [
   { username: 'niggaboy', wagered: 3660 },
   { username: 'Omixboat', wagered: 1157 },
   { username: 'Boatmom', wagered: 1150 },
+  { username: 'Optimnob', wagered: 731 },
   { username: 'plastictrees', wagered: 690 },
-  { username: 'Optimnob', wagered: 675 },
 ];
 
 const generateRealData = (region: string): Player[] => {
