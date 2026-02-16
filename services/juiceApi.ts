@@ -2,7 +2,7 @@ import { Player } from '../types';
 
 // API Configuration
 const JUICE_API_BASE_URL = 'https://api.juice.gg';
-const JUICE_API_KEY = 'ddd3a1eb-7e91-41f0-bb9b-7105bf25145d';
+const JUICE_API_KEY = import.meta.env.VITE_JUICE_API_KEY || 'ddd3a1eb-7e91-41f0-bb9b-7105bf25145d';
 const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes in milliseconds
 
 // Types from API
