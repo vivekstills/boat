@@ -1,8 +1,29 @@
 import { Player } from '../types';
 
+/**
+ * Juice.gg API Integration Service
+ * 
+ * This service handles communication with the juice.gg API to fetch
+ * real-time leaderboard data. The leaderboard automatically syncs
+ * every 30 seconds to ensure data is always up-to-date.
+ * 
+ * API Key: ddd3a1eb-7e91-41f0-bb9b-7105bf25145d
+ * API Endpoint: https://api.juice.gg/leaderboard
+ * 
+ * Environment Variables:
+ * - VITE_JUICE_API_KEY: Optional override for the API key
+ * 
+ * Features:
+ * - Automatic retry with mock data fallback
+ * - Real-time sync every 30 seconds
+ * - Loading indicators and sync status
+ * - TypeScript type safety
+ */
+
 // API Configuration
 const JUICE_API_BASE_URL = 'https://api.juice.gg';
-const JUICE_API_KEY = 'ddd3a1eb-7e91-41f0-bb9b-7105bf25145d';
+// API key from environment variable or fallback to the provided key
+const JUICE_API_KEY = import.meta.env.VITE_JUICE_API_KEY || 'ddd3a1eb-7e91-41f0-bb9b-7105bf25145d';
 
 // Response type from juice.gg API
 interface JuiceLeaderboardResponse {

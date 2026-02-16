@@ -29,6 +29,7 @@ const App: React.FC = () => {
   const [juiceData, setJuiceData] = useState<Player[]>(JUICE_PLAYERS);
   const [isLoading, setIsLoading] = useState(false);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
+  const [secondsAgo, setSecondsAgo] = useState(0);
 
   // Fetch juice.gg leaderboard data
   const loadJuiceData = async () => {
@@ -56,6 +57,23 @@ const App: React.FC = () => {
 
     return () => clearInterval(interval);
   }, []);
+
+  // Update "seconds ago" counter
+  useEffect(() => {
+    if (!lastUpdate) return;
+
+    const updateCounter = () => {
+      setSecondsAgo(Math.floor((Date.now() - lastUpdate.getTime()) / 1000));
+    };
+
+    // Update immediately
+    updateCounter();
+
+    // Update every second
+    const interval = setInterval(updateCounter, 1000);
+
+    return () => clearInterval(interval);
+  }, [lastUpdate]);
 
   // Theme Configuration (using dynamic juiceData)
   const THEMES = {
@@ -367,7 +385,7 @@ const App: React.FC = () => {
                         <div className="text-[10px] font-mono text-[#5a6178] flex items-center gap-2">
                           <span>Auto-synced with juice.gg API</span>
                           <span className="text-[#8892aa]">•</span>
-                          <span>Updated {Math.floor((Date.now() - lastUpdate.getTime()) / 1000)}s ago</span>
+                          <span>Updated {secondsAgo}s ago</span>
                         </div>
                       )}
                     </div>
