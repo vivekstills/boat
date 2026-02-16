@@ -22,6 +22,16 @@ const KickIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+// Helper function to format time elapsed
+const formatTimeAgo = (seconds: number): string => {
+  if (seconds < 3) return 'just now';
+  if (seconds < 60) return `${seconds}s ago`;
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  return `${hours}h ago`;
+};
+
 const App: React.FC = () => {
   const [isCopied, setIsCopied] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -385,7 +395,7 @@ const App: React.FC = () => {
                         <div className="text-[10px] font-mono text-[#5a6178] flex items-center gap-2">
                           <span>Auto-synced with juice.gg API</span>
                           <span className="text-[#8892aa]">•</span>
-                          <span>Updated {secondsAgo}s ago</span>
+                          <span>Updated {formatTimeAgo(secondsAgo)}</span>
                         </div>
                       )}
                     </div>
