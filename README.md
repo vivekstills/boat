@@ -1,95 +1,20 @@
-# BetStrike Leaderboard
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
 
-A modern, real-time leaderboard application for tracking gaming competitions and prizes.
+# Run and deploy your AI Studio app
 
-## Features
+This contains everything you need to run your app locally.
 
-- 🏆 **Dual Leaderboards**: BetStrike monthly race and Juice.gg weekly race
-- 🔄 **Live Updates**: Automatic refresh of Juice.gg leaderboard data every 30 seconds
-- 🎨 **Beautiful UI**: Modern design with smooth animations and responsive layout
-- ⚡ **Fast & Reliable**: Built with React, TypeScript, and Vite
-- 🔒 **Secure**: API credentials managed via environment variables
+View your app in AI Studio: https://ai.studio/apps/drive/1px2gWsWSyw3UbUvbKWJriGxHGqlHS2G9
 
-## Getting Started
+## Run Locally
 
-### Prerequisites
+**Prerequisites:**  Node.js
 
-- Node.js (v16 or higher)
-- npm or yarn
 
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/vivekstills/boat.git
-cd boat
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Set up environment variables (optional):
-```bash
-cp .env.example .env
-```
-
-Edit `.env` and configure your API credentials if needed.
-
-### Development
-
-Start the development server:
-```bash
-npm run dev
-```
-
-The application will be available at `http://localhost:5173`
-
-### Build
-
-Create a production build:
-```bash
-npm run build
-```
-
-Preview the production build:
-```bash
-npm run preview
-```
-
-## Environment Variables
-
-The application supports the following environment variables:
-
-- `VITE_JUICE_API_URL` - Juice.gg API base URL (default: `https://api.juice.gg`)
-- `VITE_JUICE_API_KEY` - Your Juice.gg API key
-- `VITE_JUICE_CODE` - Leaderboard code (default: `GANG`)
-
-See `.env.example` for a complete reference.
-
-## API Integration
-
-The application integrates with the Juice.gg API to fetch real-time leaderboard data:
-
-- **Endpoint**: Automatically tries multiple endpoint variations
-- **Authentication**: Supports multiple authentication methods
-- **Refresh Rate**: Updates every 30 seconds
-- **Fallback**: Gracefully falls back to static data if API is unavailable
-
-## Tech Stack
-
-- **React** - UI library
-- **TypeScript** - Type safety
-- **Vite** - Build tool
-- **Tailwind CSS** - Styling
-- **Framer Motion** - Animations
-- **Lucide React** - Icons
-
-## License
-
-All rights reserved © 2026 leaderboat.xyz
-
-## Responsible Gaming
-
-Please gamble responsibly. If you need help, visit [BeGambleAware.org](https://www.begambleaware.org/)
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`

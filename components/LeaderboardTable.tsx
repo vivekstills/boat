@@ -31,7 +31,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ players, variant = 
       
       {/* Header Label */}
       <div className="flex items-center justify-between mb-6 px-2">
-         <h2 className="text-sm font-luxury italic font-bold text-[#8892aa] md:text-[#5a6178] tracking-[0.2em] uppercase">
+         <h2 className="text-sm font-sans font-bold text-[#8892aa] md:text-[#5a6178] tracking-[0.2em] uppercase">
             Runner Ups
          </h2>
          <div className="h-[1px] flex-1 bg-[#1e2433] ml-6"></div>
@@ -67,7 +67,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ players, variant = 
                   
                   {/* Rank */}
                   <div className="col-span-2 md:col-span-1 flex flex-col items-center justify-center gap-1">
-                    <span className="font-luxury italic font-bold text-[#4a5268] md:text-[#5a6178] group-hover:text-[#e8eaf0] transition-colors text-lg">
+                    <span className="font-display font-bold text-[#4a5268] md:text-[#5a6178] group-hover:text-[#e8eaf0] transition-colors text-lg">
                       {player.rank < 10 ? `0${player.rank}` : player.rank}
                     </span>
                     <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -81,7 +81,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ players, variant = 
                        {hasName ? player.username.charAt(0) : '-'}
                     </div>
                     <div className="flex flex-col">
-                        <span className="font-mono uppercase font-bold text-[#e8eaf0] group-hover:text-white transition-colors tracking-wide">
+                        <span className="font-sans font-bold text-[#e8eaf0] group-hover:text-white transition-colors tracking-tight text-sm">
                             {hasName ? MASK_USERNAME(player.username) : <span className="opacity-20">---</span>}
                         </span>
                     </div>

@@ -35,8 +35,7 @@ const CountdownTimer: React.FC = () => {
   const TimeUnit = ({ value, label }: { value: number; label: string }) => (
     <div className="flex flex-col items-center">
       <div className="relative group perspective-500">
-        <div className="absolute -inset-0.5 bg-gradient-to-b from-[#7c3aed] to-[#7c3aed] rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
-        <div className="relative bg-[#0A0A12]/80 backdrop-blur-xl border border-[#1e2433] rounded-xl p-4 min-w-[70px] md:min-w-[90px] flex items-center justify-center shadow-2xl">
+        <div className="relative bg-[#0A0A12]/80 backdrop-blur-xl border border-[#1e2433] rounded-xl p-4 min-w-[70px] md:min-w-[90px] flex items-center justify-center shadow-2xl transition-colors hover:border-[#5a6178]/50">
           {/* Inner highlight */}
           <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#5a6178]/20 to-transparent"></div>
           
@@ -60,8 +59,8 @@ const CountdownTimer: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center my-8">
-      <div className="flex items-center gap-2 mb-6 text-[#7c3aed]/80">
-        <Timer size={14} className="animate-pulse" />
+      <div className="flex items-center gap-2 mb-6 text-[#8892aa]">
+        <Timer size={14} className="" />
         <span className="text-[10px] font-bold tracking-[0.3em] uppercase font-mono">Competition Ends In</span>
       </div>
       <div className="flex items-center gap-1 md:gap-4">

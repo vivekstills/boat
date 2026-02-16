@@ -29,8 +29,8 @@ const PodiumCard: React.FC<{ player: Player; position: number; variant: 'BETSTRI
 
   if (isFirst) {
     config = {
-      gradient: 'from-[#c9a84c]/40 to-[#c9a84c]/10',
-      border: 'border-[#c9a84c]/50',
+      gradient: 'from-[#c9a84c]/20 to-[#c9a84c]/5',
+      border: 'border-[#c9a84c]/30',
       shadow: 'shadow-[0_0_50px_-10px_rgba(201,168,76,0.3)]',
       iconColor: 'text-[#c9a84c]',
       height: 'md:-mt-12 scale-105 z-20',
@@ -42,10 +42,10 @@ const PodiumCard: React.FC<{ player: Player; position: number; variant: 'BETSTRI
     };
   } else if (isSecond) {
     config = {
-      gradient: 'from-[#5a6178]/40 to-[#5a6178]/10',
+      gradient: 'from-[#5a6178]/20 to-[#5a6178]/5',
       border: 'border-[#1e2433]',
-      shadow: 'shadow-[0_0_30px_-10px_rgba(90,97,120,0.2)]',
-      iconColor: 'text-[#5a6178]',
+      shadow: 'shadow-[0_0_30px_-10px_rgba(90,97,120,0.1)]',
+      iconColor: 'text-[#8892aa]',
       height: 'md:mt-4 z-10',
       order: 'order-2 md:order-1 col-span-1',
       Icon: Trophy,
@@ -55,16 +55,16 @@ const PodiumCard: React.FC<{ player: Player; position: number; variant: 'BETSTRI
     };
   } else if (isThird) {
     config = {
-      gradient: 'from-orange-900/40 to-orange-800/10',
+      gradient: 'from-[#cd7f32]/20 to-[#cd7f32]/5',
       border: 'border-[#1e2433]',
-      shadow: 'shadow-[0_0_30px_-10px_rgba(249,115,22,0.2)]',
-      iconColor: 'text-orange-400',
+      shadow: 'shadow-[0_0_30px_-10px_rgba(205,127,50,0.1)]',
+      iconColor: 'text-[#cd7f32]',
       height: 'md:mt-12 z-10',
       order: 'order-3 md:order-3 col-span-1',
       Icon: Medal,
       delay: 0.4,
-      crownColor: 'text-orange-400',
-      glowColor: 'bg-orange-500'
+      crownColor: 'text-[#cd7f32]',
+      glowColor: 'bg-[#cd7f32]'
     };
   }
 
@@ -81,39 +81,45 @@ const PodiumCard: React.FC<{ player: Player; position: number; variant: 'BETSTRI
       className={`relative flex flex-col items-center w-full max-w-[320px] mx-auto ${config.order} ${config.height}`}
     >
       {/* Background Glow */}
-      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] rounded-full blur-[100px] opacity-20 ${config.glowColor}`}></div>
+      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] rounded-full blur-[80px] opacity-10 ${config.glowColor}`}></div>
 
       <div className={`
         relative w-full overflow-hidden
-        bg-[#0A0A10]/60 backdrop-blur-xl
-        border ${config.border} rounded-2xl
+        bg-[#0A0A12] 
+        border ${config.border} rounded-3xl
         ${config.shadow}
-        flex flex-col items-center
-        group transition-all duration-300 hover:transform hover:-translate-y-2 hover:bg-[#0A0A10]/80
+        flex flex-col items-center justify-between
+        group transition-all duration-300 hover:transform hover:-translate-y-2 hover:bg-[#0E0E16]
+        min-h-[280px] md:min-h-[320px]
       `}>
-        {/* Shine Effect */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-[#e8eaf0]/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-        {/* Rank Badge */}
+        {/* Corner Rank Number */}
         <div className={`
-          absolute -top-[1px] -right-[1px] w-20 h-20 overflow-hidden rounded-tr-2xl
+          absolute top-0 right-0 
+          w-20 h-20 md:w-24 md:h-24
+          flex items-center justify-center
+          rounded-bl-3xl
+          border-b border-l ${config.border}
+          bg-[#ffffff]/[0.02]
+          z-10
         `}>
-          <div className={`absolute top-0 right-0 w-full h-full bg-gradient-to-bl ${config.gradient} opacity-50`}></div>
-          <div className={`absolute top-4 right-4 text-4xl font-bold font-luxury italic opacity-20 ${config.iconColor} select-none`}>
+          <span className={`text-4xl md:text-5xl font-bold font-display ${config.iconColor}`}>
             {position}
-          </div>
+          </span>
         </div>
-        
+
+        {/* Shine Effect */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#e8eaf0]/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
+
         {/* Content */}
-        <div className="p-8 flex flex-col items-center w-full text-center relative z-10">
+        <div className="p-8 flex flex-col items-center w-full text-center relative z-20 flex-1 justify-center pt-16">
           
           {/* Avatar / Icon Circle */}
           <div className={`
             relative p-1 rounded-full mb-6 
-            bg-gradient-to-b from-[#e8eaf0]/10 to-transparent border border-[#1e2433]
+            bg-gradient-to-b from-[#e8eaf0]/5 to-transparent border border-[#1e2433]
           `}>
              <div className={`w-16 h-16 rounded-full flex items-center justify-center bg-black/40 backdrop-blur-md shadow-inner`}>
-                <config.Icon className={`w-8 h-8 ${config.iconColor} drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]`} />
+                <config.Icon className={`w-8 h-8 ${config.iconColor} drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]`} />
              </div>
              {isFirst && hasName && (
                <motion.div 
@@ -124,7 +130,7 @@ const PodiumCard: React.FC<{ player: Player; position: number; variant: 'BETSTRI
              )}
           </div>
 
-          <h3 className="text-[#e8eaf0] font-bold font-display text-xl mb-1 tracking-wide truncate max-w-full min-h-[1.75rem]">
+          <h3 className="text-[#e8eaf0] font-bold font-sans text-xl mb-1 tracking-tight truncate max-w-full min-h-[1.75rem]">
             {hasName ? MASK_USERNAME(player.username) : <span className="opacity-20">---</span>}
           </h3>
           
@@ -136,12 +142,11 @@ const PodiumCard: React.FC<{ player: Player; position: number; variant: 'BETSTRI
           </div>
 
           <div className={`
-            w-full py-4 rounded-xl font-bold text-xl font-mono relative overflow-hidden
+            px-5 py-2 rounded-full font-bold text-sm font-mono relative overflow-hidden
             bg-[#e8eaf0]/5 border border-[#1e2433] flex items-center justify-center gap-2
             ${config.iconColor}
           `}>
-             <div className="absolute inset-0 bg-[#e8eaf0]/5 opacity-0 group-hover:opacity-10 transition-opacity"></div>
-             {isFirst && <Sparkles size={16} className="animate-pulse" />}
+             {isFirst && <Sparkles size={12} className="animate-pulse" />}
              {formatValue(player.prize)}
           </div>
         </div>
@@ -154,7 +159,7 @@ const Podium: React.FC<PodiumProps> = ({ players, variant = 'BETSTRIKE' }) => {
   if (players.length < 3) return null;
 
   return (
-    <div className="grid grid-cols-2 md:flex md:flex-row items-center md:items-end justify-center gap-4 md:gap-6 lg:gap-10 px-4 py-8 mb-16 min-h-[450px]">
+    <div className="grid grid-cols-2 md:flex md:flex-row items-center md:items-end justify-center gap-4 md:gap-6 lg:gap-8 px-4 py-8 mb-16 min-h-[450px]">
       <PodiumCard player={players[1]} position={2} variant={variant} />
       <PodiumCard player={players[0]} position={1} variant={variant} />
       <PodiumCard player={players[2]} position={3} variant={variant} />

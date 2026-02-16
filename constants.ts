@@ -18,7 +18,7 @@ export const BONUSES: Bonus[] = [
     title: 'LOSSBACK',
     value: '5%',
     icon: 'Shield',
-    color: 'from-[#c9a84c] to-[#c9a84c]'
+    color: 'from-[#3b82f6] to-[#1d4ed8]'
   }
 ];
 

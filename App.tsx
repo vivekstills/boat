@@ -6,7 +6,6 @@ import LeaderboardTable from './components/LeaderboardTable';
 import BonusCards from './components/BonusCards';
 import { Copy, ExternalLink, Menu, X, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useJuiceLeaderboard } from './hooks/useJuiceLeaderboard';
 
 // SVG Icons
 const DiscordIcon = ({ className }: { className?: string }) => (
@@ -21,49 +20,54 @@ const KickIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+// Theme Configuration
+const THEMES = {
+  BETSTRIKE: {
+    accent: '#7c3aed',
+    accentTw: 'text-[#7c3aed]',
+    accentBg: 'bg-[#7c3aed]',
+    accentBorder: 'border-[#7c3aed]',
+    glow: 'shadow-[0_0_10px_#7c3aed]',
+    badge: 'Live Competition',
+    titleLine1: '$1,000',
+    titleLine2: 'MONTHLY RACE',
+    desc: (
+      <>
+        Every bet under code{' '}
+        <span className="font-bold text-[#8b5cf6] drop-shadow-[0_0_15px_rgba(139,92,246,0.5)]">
+          "BOAT"
+        </span>{' '}
+        counts towards your score.
+      </>
+    ),
+    codeLabel: 'Entry Code:',
+    code: REFERRAL_CODE,
+    data: LEADERBOARD_DATA['GLOBAL'],
+    link: REFERRAL_LINK,
+    siteName: 'BETSTRIKE'
+  },
+  JUICE: {
+    accent: '#c9a84c',
+    accentTw: 'text-[#c9a84c]',
+    accentBg: 'bg-[#c9a84c]',
+    accentBorder: 'border-[#c9a84c]',
+    glow: 'shadow-[0_0_10px_#c9a84c]',
+    badge: 'GANG × JUICE.GG',
+    titleLine1: '500 COINS',
+    titleLine2: 'WEEKLY RACE',
+    desc: "Who's eating this week? Prize distribution for the community.",
+    codeLabel: 'Use Code:',
+    code: 'GANG',
+    data: JUICE_PLAYERS,
+    link: JUICE_LINK,
+    siteName: 'JUICE.GG'
+  }
+};
+
 const App: React.FC = () => {
   const [isCopied, setIsCopied] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'BETSTRIKE' | 'JUICE'>('BETSTRIKE');
-  
-  // Fetch juice.gg leaderboard data
-  const { players: juicePlayers, lastUpdated } = useJuiceLeaderboard();
-
-  // Theme Configuration (now dynamic with live juice data)
-  const THEMES = {
-    BETSTRIKE: {
-      accent: '#7c3aed',
-      accentTw: 'text-[#7c3aed]',
-      accentBg: 'bg-[#7c3aed]',
-      accentBorder: 'border-[#7c3aed]',
-      glow: 'shadow-[0_0_10px_#7c3aed]',
-      badge: 'Live Competition',
-      titleLine1: '$1,000',
-      titleLine2: 'MONTHLY RACE',
-      desc: 'Wager to ascend the ranks. The top 10 elite share the prize pool.',
-      codeLabel: 'Entry Code:',
-      code: REFERRAL_CODE,
-      data: LEADERBOARD_DATA['GLOBAL'],
-      link: REFERRAL_LINK,
-      siteName: 'BETSTRIKE'
-    },
-    JUICE: {
-      accent: '#c9a84c',
-      accentTw: 'text-[#c9a84c]',
-      accentBg: 'bg-[#c9a84c]',
-      accentBorder: 'border-[#c9a84c]',
-      glow: 'shadow-[0_0_10px_#c9a84c]',
-      badge: 'GANG × JUICE.GG',
-      titleLine1: '500 COINS',
-      titleLine2: 'WEEKLY RACE',
-      desc: "Who's eating this week? Prize distribution for the community.",
-      codeLabel: 'Use Code:',
-      code: 'GANG',
-      data: juicePlayers.length > 0 ? juicePlayers : JUICE_PLAYERS,
-      link: JUICE_LINK,
-      siteName: 'JUICE.GG'
-    }
-  };
 
   // Entrance animations observer
   useEffect(() => {
@@ -91,6 +95,13 @@ const App: React.FC = () => {
   const closeMenu = () => setMobileMenuOpen(false);
 
   const theme = THEMES[activeTab];
+
+  // Animation Variants for smooth tab switching
+  const contentVariants = {
+    hidden: { opacity: 0, y: 15, scale: 0.98, filter: 'blur(8px)' },
+    visible: { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' },
+    exit: { opacity: 0, y: -15, scale: 0.98, filter: 'blur(8px)' }
+  };
 
   return (
     <div className="min-h-screen bg-[#020205] text-[#e8eaf0] font-sans selection:bg-[#7c3aed]/30 selection:text-[#e8eaf0] overflow-x-hidden relative">
@@ -206,7 +217,7 @@ const App: React.FC = () => {
 
       <main className="relative pt-32 pb-20 px-5 md:px-4 z-[1] leading-[1.6] md:leading-normal">
         
-        {/* Tab Switcher - MOVED TO TOP */}
+        {/* Tab Switcher */}
         <div className="flex justify-center mb-16 animate-on-scroll relative z-20">
           <div className="inline-flex items-center justify-center border border-[#1e2433] p-[4px] backdrop-blur-md bg-[#020205]/50">
              <button 
@@ -225,31 +236,29 @@ const App: React.FC = () => {
         </div>
 
         {/* Dynamic Hero Section */}
-        <div className="text-center mb-16 relative hero-section animate-on-scroll">
+        <div className="text-center mb-16 relative hero-section">
            {/* Dynamic Hero Bloom */}
            <div className="absolute top-[30%] left-1/2 -translate-x-1/2 -translate-y-[30%] w-[900px] h-[500px] pointer-events-none z-[-1]" 
                 style={{ 
-                  background: `radial-gradient(ellipse at center, ${activeTab === 'BETSTRIKE' ? 'rgba(124,58,237,0.06)' : 'rgba(201,168,76,0.06)'} 0%, transparent 70%)` 
+                  background: `radial-gradient(ellipse at center, ${activeTab === 'BETSTRIKE' ? 'rgba(124,58,237,0.06)' : 'rgba(201,168,76,0.06)'} 0%, transparent 70%)`,
+                  transition: 'background 0.5s ease-in-out'
                 }}>
            </div>
 
            <AnimatePresence mode='wait'>
              <motion.div
                key={activeTab}
-               initial={{ opacity: 0, y: 10 }}
-               animate={{ opacity: 1, y: 0 }}
-               exit={{ opacity: 0, y: -10 }}
-               transition={{ duration: 0.3 }}
+               initial="hidden"
+               animate="visible"
+               exit="exit"
+               variants={contentVariants}
+               transition={{ duration: 0.4, ease: "easeOut" }}
+               className="relative z-10"
              >
-               <motion.div
-                 initial={{ opacity: 0, y: 20 }}
-                 animate={{ opacity: 1, y: 0 }}
-                 transition={{ duration: 0.6 }}
-                 className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full ${theme.accentBorder}/20 ${theme.accentBg}/10 ${theme.accentTw} border text-xs font-bold mb-8 tracking-[0.2em] font-mono uppercase backdrop-blur-md`}
-               >
+               <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full ${theme.accentBorder}/20 ${theme.accentBg}/10 ${theme.accentTw} border text-xs font-bold mb-8 tracking-[0.2em] font-mono uppercase backdrop-blur-md`}>
                   <span className={`w-1.5 h-1.5 rounded-full ${theme.accentBg} animate-pulse ${theme.glow}`}></span>
                   {theme.badge}
-               </motion.div>
+               </div>
                
                <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-[#e8eaf0] mb-8 tracking-tighter drop-shadow-2xl leading-[0.9] px-5 md:px-0">
                  <span className={`text-transparent bg-clip-text bg-gradient-to-b from-[#e8eaf0] via-[#e8eaf0] ${activeTab === 'BETSTRIKE' ? 'to-[#8892aa] md:to-[#5a6178]' : 'to-[#c9a84c]/50'}`}>
@@ -261,10 +270,9 @@ const App: React.FC = () => {
                  </span>
                </h1>
 
-               <p className="text-white text-2xl md:text-3xl max-w-4xl mx-auto mb-10 font-luxury italic font-medium leading-relaxed px-5 md:px-0"
-                  style={{ textShadow: '0 0 30px rgba(255, 255, 255, 0.4), 0 0 10px rgba(255, 255, 255, 0.8)' }}>
+               <p className="text-[#8892aa] md:text-[#e8eaf0] text-lg md:text-2xl max-w-2xl mx-auto mb-10 font-sans leading-relaxed px-5 md:px-0">
                  {theme.desc}
-                 <span className="text-[#8892aa] md:text-[#8892aa] text-sm mt-4 block font-mono not-italic tracking-normal font-bold uppercase opacity-80" style={{ textShadow: 'none' }}>
+                 <span className="text-[#8892aa] md:text-[#8892aa] text-sm mt-4 block font-mono tracking-normal font-bold uppercase opacity-80">
                    {theme.codeLabel} <span className="text-white font-bold bg-[#e8eaf0]/10 px-3 py-1 rounded border border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.1)]">{theme.code}</span>
                  </span>
                </p>
@@ -274,71 +282,61 @@ const App: React.FC = () => {
            </AnimatePresence>
         </div>
 
-        {/* Bonus Section - Only for BetStrike */}
-        {activeTab === 'BETSTRIKE' && (
-          <motion.div 
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="bonuses-section animate-on-scroll overflow-hidden"
-          >
-            <BonusCards />
-          </motion.div>
-        )}
-
         {/* Main Content Area */}
         <div className="relative min-h-[800px]">
-            {/* BetStrike Tab Content */}
-            {activeTab === 'BETSTRIKE' && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              >
-                  {/* Region Indicator (Section A) */}
-                  <div className="flex justify-center mb-16 animate-on-scroll is-visible">
-                    <div className="flex items-center gap-3 px-6 py-2.5 rounded-full bg-[#e8eaf0]/5 border border-[#1e2433] backdrop-blur-md shadow-2xl">
-                      <Globe size={14} className="text-[#7c3aed]" />
-                      <span className="text-xs font-mono font-bold tracking-[0.2em] text-[#e8eaf0] uppercase">Global Ranking</span>
-                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></div>
+            <AnimatePresence mode='wait'>
+                {activeTab === 'BETSTRIKE' ? (
+                  <motion.div
+                    key="BETSTRIKE"
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    variants={contentVariants}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                  >
+                      {/* Bonuses included in flow for smooth transition */}
+                      <BonusCards />
+
+                      {/* Region Indicator */}
+                      <div className="flex justify-center mb-16">
+                        <div className="flex items-center gap-3 px-6 py-2.5 rounded-full bg-[#e8eaf0]/5 border border-[#1e2433] backdrop-blur-md shadow-2xl">
+                          <Globe size={14} className="text-[#7c3aed]" />
+                          <span className="text-xs font-mono font-bold tracking-[0.2em] text-[#e8eaf0] uppercase">Global Ranking</span>
+                          <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></div>
+                        </div>
+                      </div>
+
+                      {/* BetStrike Leaderboard */}
+                      <div className="race-section">
+                          <Podium players={theme.data} />
+                          <LeaderboardTable players={theme.data} />
+                      </div>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="JUICE"
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    variants={contentVariants}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                  >
+                    {/* Juice Indicator */}
+                    <div className="flex justify-center mb-16">
+                      <div className="flex items-center gap-3 px-6 py-2.5 rounded-full bg-[#e8eaf0]/5 border border-[#1e2433] backdrop-blur-md shadow-2xl">
+                         <img src="https://juice.gg/favicon.ico" alt="Juice" className="w-4 h-4 grayscale opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                         <span className="text-xs font-mono font-bold tracking-[0.2em] text-[#e8eaf0] uppercase">GANG × JUICE.GG</span>
+                         <div className="w-1.5 h-1.5 rounded-full bg-[#c9a84c] shadow-[0_0_8px_#c9a84c]"></div>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* BetStrike Leaderboard (Section A) */}
-                  <div className="race-section animate-on-scroll is-visible">
-                      <Podium players={theme.data} />
-                      <LeaderboardTable players={theme.data} />
-                  </div>
-              </motion.div>
-            )}
-
-            {/* Juice.gg Tab Content (Section B) */}
-            {activeTab === 'JUICE' && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              >
-                {/* Juice Indicator (Matching Betstrike Layout) */}
-                <div className="flex justify-center mb-16 animate-on-scroll is-visible">
-                  <div className="flex items-center gap-3 px-6 py-2.5 rounded-full bg-[#e8eaf0]/5 border border-[#1e2433] backdrop-blur-md shadow-2xl">
-                     <img src="https://juice.gg/favicon.ico" alt="Juice" className="w-4 h-4 grayscale opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
-                     <span className="text-xs font-mono font-bold tracking-[0.2em] text-[#e8eaf0] uppercase">GANG × JUICE.GG</span>
-                     <div className="w-1.5 h-1.5 rounded-full bg-[#c9a84c] shadow-[0_0_8px_#c9a84c] animate-pulse"></div>
-                     {lastUpdated && juicePlayers.length > 0 && (
-                       <span className="text-[10px] font-mono text-[#5a6178] ml-2">
-                         LIVE
-                       </span>
-                     )}
-                  </div>
-                </div>
-
-                <div className="race-section animate-on-scroll is-visible">
-                  <Podium players={theme.data} variant="JUICE" />
-                  <LeaderboardTable players={theme.data} variant="JUICE" />
-                </div>
-              </motion.div>
-            )}
+                    <div className="race-section">
+                      <Podium players={theme.data} variant="JUICE" />
+                      <LeaderboardTable players={theme.data} variant="JUICE" />
+                    </div>
+                  </motion.div>
+                )}
+            </AnimatePresence>
         </div>
 
       </main>
