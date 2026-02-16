@@ -184,7 +184,16 @@ const App: React.FC = () => {
       <header className="fixed top-0 w-full z-50 bg-[#020205]/60 backdrop-blur-xl border-b border-white/5">
         <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
           
-          {/* Desktop Logo - Removed per requirements */}
+          {/* Desktop Logo */}
+          {activeTab === 'BETSTRIKE' && (
+            <div className="hidden md:flex items-center gap-3">
+              <div className="font-display font-bold text-2xl tracking-wider bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
+                BetStrike
+              </div>
+              <div className="text-slate-600 text-sm">|</div>
+              <div className="text-slate-400 text-sm font-medium">Leaderboard</div>
+            </div>
+          )}
           
           {/* Mobile Logo / Title */}
           <div className="md:hidden flex items-center gap-2">
