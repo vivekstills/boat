@@ -6,6 +6,8 @@ import LeaderboardTable from './components/LeaderboardTable';
 import BonusCards from './components/BonusCards';
 import { Copy, ExternalLink, Menu, X, Globe, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { getJuiceLeaderboard } from './services/juiceApi';
+import { Player } from './types';
 
 // SVG Icons
 const DiscordIcon = ({ className }: { className?: string }) => (
@@ -20,54 +22,36 @@ const KickIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-// Theme Configuration
-const THEMES = {
-  BETSTRIKE: {
-    accent: '#7c3aed',
-    accentTw: 'text-[#7c3aed]',
-    accentBg: 'bg-[#7c3aed]',
-    accentBorder: 'border-[#7c3aed]',
-    glow: 'shadow-[0_0_20px_-5px_#7c3aed]',
-    badge: 'Live Competition',
-    titleLine1: '$1,000',
-    titleLine2: 'MONTHLY RACE',
-    desc: (
-      <>
-        Every bet under code{' '}
-        <span className="font-bold text-[#e8eaf0] bg-[#7c3aed]/20 border border-[#7c3aed]/50 px-2 py-0.5 rounded shadow-[0_0_15px_rgba(124,58,237,0.4)]">
-          BOAT
-        </span>{' '}
-        counts towards your score.
-      </>
-    ),
-    codeLabel: 'Entry Code:',
-    code: REFERRAL_CODE,
-    data: LEADERBOARD_DATA['GLOBAL'],
-    link: REFERRAL_LINK,
-    siteName: 'BETSTRIKE'
-  },
-  JUICE: {
-    accent: '#c9a84c',
-    accentTw: 'text-[#c9a84c]',
-    accentBg: 'bg-[#c9a84c]',
-    accentBorder: 'border-[#c9a84c]',
-    glow: 'shadow-[0_0_20px_-5px_#c9a84c]',
-    badge: 'GANG × JUICE.GG',
-    titleLine1: '500 COINS',
-    titleLine2: 'WEEKLY RACE',
-    desc: "Who's eating this week? Prize distribution for the community.",
-    codeLabel: 'Use Code:',
-    code: 'GANG',
-    data: JUICE_PLAYERS,
-    link: JUICE_LINK,
-    siteName: 'JUICE.GG'
-  }
-};
-
 const App: React.FC = () => {
   const [isCopied, setIsCopied] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'BETSTRIKE' | 'JUICE'>('BETSTRIKE');
+  const [juicePlayers, setJuicePlayers] = useState<Player[]>(JUICE_PLAYERS);
+  const [isLoadingJuice, setIsLoadingJuice] = useState(false);
+
+  // Fetch juice.gg leaderboard data
+  useEffect(() => {
+    const fetchJuiceData = async () => {
+      setIsLoadingJuice(true);
+      try {
+        const players = await getJuiceLeaderboard();
+        setJuicePlayers(players);
+      } catch (error) {
+        console.error('Failed to fetch juice.gg data:', error);
+        // Keep using default JUICE_PLAYERS on error
+      } finally {
+        setIsLoadingJuice(false);
+      }
+    };
+
+    // Initial fetch
+    fetchJuiceData();
+
+    // Auto-refresh every 10 minutes (API recommended minimum)
+    const interval = setInterval(fetchJuiceData, 10 * 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Entrance animations observer
   useEffect(() => {
@@ -93,6 +77,50 @@ const App: React.FC = () => {
   };
 
   const closeMenu = () => setMobileMenuOpen(false);
+
+  // Theme Configuration - moved inside component to use dynamic juicePlayers
+  const THEMES = {
+    BETSTRIKE: {
+      accent: '#7c3aed',
+      accentTw: 'text-[#7c3aed]',
+      accentBg: 'bg-[#7c3aed]',
+      accentBorder: 'border-[#7c3aed]',
+      glow: 'shadow-[0_0_20px_-5px_#7c3aed]',
+      badge: 'Live Competition',
+      titleLine1: '$1,000',
+      titleLine2: 'MONTHLY RACE',
+      desc: (
+        <>
+          Every bet under code{' '}
+          <span className="font-bold text-[#e8eaf0] drop-shadow-[0_0_8px_rgba(124,58,237,0.8)]">
+            BOAT
+          </span>{' '}
+          counts towards your score.
+        </>
+      ),
+      codeLabel: 'Entry Code:',
+      code: REFERRAL_CODE,
+      data: LEADERBOARD_DATA['GLOBAL'],
+      link: REFERRAL_LINK,
+      siteName: 'BETSTRIKE'
+    },
+    JUICE: {
+      accent: '#c9a84c',
+      accentTw: 'text-[#c9a84c]',
+      accentBg: 'bg-[#c9a84c]',
+      accentBorder: 'border-[#c9a84c]',
+      glow: 'shadow-[0_0_20px_-5px_#c9a84c]',
+      badge: 'GANG × JUICE.GG',
+      titleLine1: '500 COINS',
+      titleLine2: 'WEEKLY RACE',
+      desc: "Who's eating this week? Prize distribution for the community.",
+      codeLabel: 'Use Code:',
+      code: 'GANG',
+      data: juicePlayers,
+      link: JUICE_LINK,
+      siteName: 'JUICE.GG'
+    }
+  };
 
   const theme = THEMES[activeTab];
 
@@ -326,7 +354,11 @@ const App: React.FC = () => {
                       <div className="flex items-center gap-3 px-6 py-2.5 rounded-full bg-[#0e0e12]/60 border border-[#ffffff]/10 backdrop-blur-md shadow-xl">
                          <img src="https://juice.gg/favicon.ico" alt="Juice" className="w-4 h-4 grayscale opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                          <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-[#e8eaf0] uppercase">GANG × JUICE.GG</span>
-                         <div className="w-1.5 h-1.5 rounded-full bg-[#c9a84c] shadow-[0_0_10px_#c9a84c]"></div>
+                         {isLoadingJuice ? (
+                           <div className="w-1.5 h-1.5 rounded-full bg-[#c9a84c] animate-pulse shadow-[0_0_10px_#c9a84c]"></div>
+                         ) : (
+                           <div className="w-1.5 h-1.5 rounded-full bg-[#c9a84c] shadow-[0_0_10px_#c9a84c]"></div>
+                         )}
                       </div>
                     </div>
 
