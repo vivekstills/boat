@@ -37,12 +37,14 @@ export const LEADERBOARD_DATA: Record<Region, Player[]> = {
 
 // Initial state for Juice.gg leaderboard (will be populated from API)
 // Fallback mock data for testing when API is unavailable
+// Prize distribution: 250, 150, 50, 25, 15, 10 (Total: 500 coins)
 export const JUICE_PLAYERS: Player[] = [
-  { rank: 1, username: 'player1', wagered: 3660, prize: 500, change: 'neutral' },
-  { rank: 2, username: 'player2', wagered: 1157, prize: 250, change: 'neutral' },
-  { rank: 3, username: 'player3', wagered: 690, prize: 125, change: 'neutral' },
-  { rank: 4, username: 'player4', wagered: 450, prize: 75, change: 'neutral' },
-  { rank: 5, username: 'player5', wagered: 320, prize: 50, change: 'neutral' },
+  { rank: 1, username: 'player1', wagered: 3660, prize: 250, change: 'neutral' },
+  { rank: 2, username: 'player2', wagered: 1157, prize: 150, change: 'neutral' },
+  { rank: 3, username: 'player3', wagered: 690, prize: 50, change: 'neutral' },
+  { rank: 4, username: 'player4', wagered: 450, prize: 25, change: 'neutral' },
+  { rank: 5, username: 'player5', wagered: 320, prize: 15, change: 'neutral' },
+  { rank: 6, username: 'player6', wagered: 200, prize: 10, change: 'neutral' },
 ];
 
 export const MASK_USERNAME = (name: string) => {

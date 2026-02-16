@@ -34,6 +34,16 @@ interface JuiceLeaderboardResponse {
   lastUpdate: string;
 }
 
+// Prize distribution for juice.gg leaderboard (500 coins total)
+const JUICE_PRIZE_DISTRIBUTION: Record<number, number> = {
+  1: 250,
+  2: 150,
+  3: 50,
+  4: 25,
+  5: 15,
+  6: 10,
+};
+
 // Fetch leaderboard data from juice.gg API
 export async function fetchJuiceLeaderboard(): Promise<Player[]> {
   try {
@@ -51,12 +61,12 @@ export async function fetchJuiceLeaderboard(): Promise<Player[]> {
 
     const data: JuiceLeaderboardResponse = await response.json();
     
-    // Transform API response to Player format
+    // Transform API response to Player format with correct prize distribution
     return data.players.map(player => ({
       rank: player.rank,
       username: player.username,
       wagered: player.wagered,
-      prize: player.prize,
+      prize: JUICE_PRIZE_DISTRIBUTION[player.rank] || 0,
       change: 'neutral' as const,
     }));
   } catch (error) {
