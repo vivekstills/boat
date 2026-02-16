@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { LEADERBOARD_DATA, REFERRAL_CODE, REFERRAL_LINK, DISCORD_LINK, KICK_LINK } from './constants';
+import React, { useState, useEffect } from 'react';
+import { LEADERBOARD_DATA, JUICE_PLAYERS, REFERRAL_CODE, REFERRAL_LINK, JUICE_LINK, DISCORD_LINK, KICK_LINK } from './constants';
 import CountdownTimer from './components/CountdownTimer';
 import Podium from './components/Podium';
 import LeaderboardTable from './components/LeaderboardTable';
 import BonusCards from './components/BonusCards';
-import { Copy, ExternalLink, Menu, X, Globe, Sparkles } from 'lucide-react';
+import { Copy, ExternalLink, Menu, X, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // SVG Icons
@@ -16,50 +16,110 @@ const DiscordIcon = ({ className }: { className?: string }) => (
 
 const KickIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-    <path d="M21 3H3C1.895 3 1 3.895 1 5V19C1 20.105 1.895 21 3 21H21C22.105 21 23 20.105 23 19V5C23 3.895 22.105 3 21 3ZM9.5 16H8V11.5H7V16H5.5V8H7V10H8V8H9.5V11L11.5 8H13.5L11 11.5L14 16H12L9.5 12.5V16Z" />
+    <path d="M2.5 0h19A2.5 2.5 0 0 1 24 2.5v19A2.5 2.5 0 0 1 21.5 24h-19A2.5 2.5 0 0 1 0 21.5v-19A2.5 2.5 0 0 1 2.5 0zm6.2 6.5v11h3.3v-4.1l3.5 4.1h4.4l-4.8-5.6 4.6-5.4h-4.3l-3.4 4v-4H8.7z" />
   </svg>
 );
+
+// Theme Configuration
+const THEMES = {
+  BETSTRIKE: {
+    accent: '#7c3aed',
+    accentTw: 'text-[#7c3aed]',
+    accentBg: 'bg-[#7c3aed]',
+    accentBorder: 'border-[#7c3aed]',
+    glow: 'shadow-[0_0_10px_#7c3aed]',
+    badge: 'Live Competition',
+    titleLine1: '$1,000',
+    titleLine2: 'MONTHLY RACE',
+    desc: 'Wager to ascend the ranks. The top 10 elite share the prize pool.',
+    codeLabel: 'Entry Code:',
+    code: REFERRAL_CODE,
+    data: LEADERBOARD_DATA['GLOBAL'],
+    link: REFERRAL_LINK,
+    siteName: 'BETSTRIKE'
+  },
+  JUICE: {
+    accent: '#c9a84c',
+    accentTw: 'text-[#c9a84c]',
+    accentBg: 'bg-[#c9a84c]',
+    accentBorder: 'border-[#c9a84c]',
+    glow: 'shadow-[0_0_10px_#c9a84c]',
+    badge: 'GANG × JUICE.GG',
+    titleLine1: '500 COINS',
+    titleLine2: 'WEEKLY RACE',
+    desc: "Who's eating this week? Prize distribution for the community.",
+    codeLabel: 'Use Code:',
+    code: 'GANG',
+    data: JUICE_PLAYERS,
+    link: JUICE_LINK,
+    siteName: 'JUICE.GG'
+  }
+};
 
 const App: React.FC = () => {
   const [isCopied, setIsCopied] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<'BETSTRIKE' | 'JUICE'>('BETSTRIKE');
+
+  // Entrance animations observer
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    const elements = document.querySelectorAll('.animate-on-scroll');
+    elements.forEach(el => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(REFERRAL_CODE);
+    navigator.clipboard.writeText(THEMES[activeTab].code);
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
   };
 
+  const closeMenu = () => setMobileMenuOpen(false);
+
+  const theme = THEMES[activeTab];
+
   return (
-    <div className="min-h-screen bg-navy-950 text-slate-200 font-sans selection:bg-purple-500/30 selection:text-purple-200 overflow-x-hidden">
+    <div className="min-h-screen bg-[#020205] text-[#e8eaf0] font-sans selection:bg-[#7c3aed]/30 selection:text-[#e8eaf0] overflow-x-hidden relative">
       
       {/* Dynamic Background */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-purple-900/10 rounded-full blur-[150px] animate-blob"></div>
-        <div className="absolute top-[40%] right-[-10%] w-[40%] h-[60%] bg-blue-900/10 rounded-full blur-[150px] animate-blob animation-delay-2000"></div>
-        <div className="absolute bottom-[-10%] left-[20%] w-[30%] h-[30%] bg-indigo-900/10 rounded-full blur-[120px] animate-blob animation-delay-4000"></div>
+        <div className={`absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full blur-[150px] animate-blob transition-colors duration-1000 ${activeTab === 'BETSTRIKE' ? 'bg-[#7c3aed]/10' : 'bg-[#c9a84c]/10'}`}></div>
+        <div className={`absolute top-[40%] right-[-10%] w-[40%] h-[60%] rounded-full blur-[150px] animate-blob animation-delay-2000 transition-colors duration-1000 ${activeTab === 'BETSTRIKE' ? 'bg-[#7c3aed]/5' : 'bg-[#c9a84c]/5'}`}></div>
+        <div className={`absolute bottom-[-10%] left-[20%] w-[30%] h-[30%] rounded-full blur-[120px] animate-blob animation-delay-4000 transition-colors duration-1000 ${activeTab === 'BETSTRIKE' ? 'bg-[#7c3aed]/10' : 'bg-[#c9a84c]/10'}`}></div>
         
         {/* Tech Grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
-        
-        {/* Noise Texture */}
-        <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")' }}></div>
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(232,234,240,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(232,234,240,0.015)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
       </div>
 
       {/* Header */}
-      <header className="fixed top-0 w-full z-50 bg-[#020205]/60 backdrop-blur-xl border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+      <header className="fixed top-0 w-full z-[100] bg-[#020205]/60 backdrop-blur-xl border-b border-[#1e2433]">
+        <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between md:justify-end">
           
+          {/* Mobile Logo / Title */}
+          <div className="md:hidden flex items-center gap-2">
+            <span className="font-display font-bold text-lg tracking-wider text-[#e8eaf0]">BETSTRIKE</span>
+          </div>
+
           {/* Desktop Nav Actions */}
-          <div className="hidden md:flex items-center gap-4 ml-auto">
-             <div className="bg-white/5 border border-white/10 rounded-lg p-1.5 flex items-center pr-4 gap-4 transition-all hover:border-white/20 hover:bg-white/10">
-                 <div className="px-3 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 rounded text-[10px] text-white font-bold tracking-wider font-display shadow-lg shadow-purple-500/20">
+          <div className="hidden md:flex items-center gap-4">
+             <div className="bg-[#e8eaf0]/5 border border-[#1e2433] rounded-lg p-1.5 flex items-center pr-4 gap-4 transition-all hover:border-[#1e2433]/80 hover:bg-[#e8eaf0]/10">
+                 <div className={`px-3 py-1.5 bg-gradient-to-r rounded text-[10px] text-white font-bold tracking-wider font-display shadow-lg transition-colors duration-500 ${activeTab === 'BETSTRIKE' ? 'from-[#7c3aed] to-[#7c3aed] shadow-[#7c3aed]/20' : 'from-[#c9a84c] to-[#c9a84c] shadow-[#c9a84c]/20'}`}>
                     CODE
                  </div>
-                 <span className="font-mono font-bold text-lg text-white tracking-[0.2em]">{REFERRAL_CODE}</span>
+                 <span className="font-mono font-bold text-lg text-[#e8eaf0] tracking-[0.2em]">{theme.code}</span>
                  <button 
                   onClick={handleCopy}
-                  className="hover:text-purple-400 transition-colors relative"
+                  className={`hover:${theme.accentTw} transition-colors relative`}
                   title="Copy Code"
                  >
                    <AnimatePresence mode='wait'>
@@ -86,12 +146,12 @@ const App: React.FC = () => {
              </div>
 
              <a 
-               href={REFERRAL_LINK}
+               href={theme.link}
                target="_blank"
                rel="noreferrer"
-               className="group relative px-6 py-2.5 bg-white text-black font-bold text-sm rounded-lg overflow-hidden transition-all hover:shadow-[0_0_25px_rgba(255,255,255,0.4)]"
+               className="group relative px-6 py-2.5 bg-[#e8eaf0] text-black font-bold text-sm rounded-lg overflow-hidden transition-all hover:shadow-[0_0_25px_rgba(232,234,240,0.4)]"
              >
-                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 bg-[length:200%_100%] animate-shine opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div className={`absolute inset-0 bg-gradient-to-r bg-[length:200%_100%] animate-shine opacity-0 group-hover:opacity-100 transition-opacity ${activeTab === 'BETSTRIKE' ? 'from-[#7c3aed] via-[#c9a84c] to-[#7c3aed]' : 'from-[#c9a84c] via-[#ffeebb] to-[#c9a84c]'}`}></div>
                 <span className="relative flex items-center gap-2 font-display z-10 text-black group-hover:text-white transition-colors">
                   CLAIM OFFER <ExternalLink size={14} />
                 </span>
@@ -100,7 +160,7 @@ const App: React.FC = () => {
 
           {/* Mobile Menu Toggle */}
           <button 
-            className="md:hidden text-slate-300 p-2 border border-white/10 rounded-lg bg-white/5"
+            className="md:hidden text-[#8892aa] md:text-[#5a6178] p-2 border border-[#1e2433] rounded-lg bg-[#e8eaf0]/5"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -115,87 +175,167 @@ const App: React.FC = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="fixed inset-x-0 top-20 bg-[#020205] border-b border-white/10 z-40 px-6 py-8 md:hidden flex flex-col gap-6 shadow-2xl overflow-hidden"
+            className="fixed inset-x-0 top-20 bg-[#020205] border-b border-[#1e2433] z-40 px-6 py-8 md:hidden flex flex-col items-center gap-6 shadow-2xl overflow-hidden font-mono"
           >
-             <div className="flex flex-col gap-2">
-                <span className="text-xs text-slate-500 uppercase font-bold tracking-widest font-display">Referral Code</span>
-                <div className="flex items-center justify-between bg-white/5 p-4 rounded-xl border border-white/10">
-                   <span className="font-mono text-xl font-bold text-white tracking-widest">{REFERRAL_CODE}</span>
-                   <button onClick={handleCopy} className="text-slate-400">
+             <div className="flex flex-col gap-2 items-center w-full py-6">
+                <span className="text-xs text-[#8892aa] md:text-[#5a6178] uppercase font-bold tracking-widest font-mono text-center">Referral Code</span>
+                <div className="flex items-center justify-between bg-[#e8eaf0]/5 p-4 rounded-xl border border-[#1e2433] gap-4">
+                   <span className="font-mono text-xl font-bold text-[#e8eaf0] tracking-widest">{theme.code}</span>
+                   <button onClick={handleCopy} className="text-[#8892aa] md:text-[#5a6178]">
                      {isCopied ? <span className="text-emerald-400 font-bold text-sm">COPIED</span> : <Copy size={18} />}
                    </button>
                 </div>
              </div>
 
              <a 
-               href={REFERRAL_LINK}
-               className="w-full py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold text-center rounded-xl font-display shadow-lg shadow-purple-900/30"
+               href={theme.link}
+               onClick={closeMenu}
+               target="_blank"
+               rel="noreferrer"
+               className={`w-full max-w-xs py-6 bg-gradient-to-r text-white font-bold text-center rounded-xl font-display shadow-lg ${activeTab === 'BETSTRIKE' ? 'from-[#7c3aed] to-[#7c3aed] shadow-[#7c3aed]/30' : 'from-[#c9a84c] to-[#c9a84c] shadow-[#c9a84c]/30'}`}
              >
-                VISIT SITE
+                VISIT {theme.siteName}
              </a>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <main className="relative pt-32 pb-20 px-4 z-10">
+      <main className="relative pt-32 pb-20 px-5 md:px-4 z-[1] leading-[1.6] md:leading-normal">
         
-        {/* Hero Section */}
-        <div className="text-center mb-16 relative">
-           <motion.div
-             initial={{ opacity: 0, y: 20 }}
-             animate={{ opacity: 1, y: 0 }}
-             transition={{ duration: 0.6 }}
-             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-bold mb-8 tracking-[0.2em] font-display uppercase backdrop-blur-md"
-           >
-              <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse shadow-[0_0_10px_currentColor]"></span>
-              Live Competition
-           </motion.div>
-           
-           <motion.h1 
-             initial={{ opacity: 0, scale: 0.95 }}
-             animate={{ opacity: 1, scale: 1 }}
-             transition={{ duration: 0.8, delay: 0.1 }}
-             className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-8 tracking-tighter drop-shadow-2xl leading-[0.9]"
-           >
-             <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-slate-100 to-slate-300 md:from-white md:via-white md:to-slate-400">$1,000</span>
-             <br />
-             <span className="text-transparent bg-clip-text bg-gradient-to-b from-slate-200 via-slate-400 to-slate-600 text-4xl md:text-6xl lg:text-7xl">MONTHLY RACE</span>
-           </motion.h1>
-
-           <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light leading-relaxed"
-           >
-             Every bet under code <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 animate-pulse">"BOAT"</span> counts towards your score.
-           </motion.p>
-
-           <CountdownTimer />
+        {/* Tab Switcher - MOVED TO TOP */}
+        <div className="flex justify-center mb-16 animate-on-scroll relative z-20">
+          <div className="inline-flex items-center justify-center border border-[#1e2433] p-[4px] backdrop-blur-md bg-[#020205]/50">
+             <button 
+               onClick={() => setActiveTab('BETSTRIKE')}
+               className={`px-8 py-2.5 font-mono text-[11px] tracking-[0.14em] transition-all duration-200 ${activeTab === 'BETSTRIKE' ? 'bg-[#1e2433] text-[#e8eaf0]' : 'bg-transparent text-[#5a6178] hover:text-[#e8eaf0]'}`}
+             >
+               BETSTRIKE
+             </button>
+             <button 
+               onClick={() => setActiveTab('JUICE')}
+               className={`px-8 py-2.5 font-mono text-[11px] tracking-[0.14em] transition-all duration-200 ${activeTab === 'JUICE' ? 'bg-[#1e2433] text-[#e8eaf0]' : 'bg-transparent text-[#5a6178] hover:text-[#e8eaf0]'}`}
+             >
+               JUICE.GG
+             </button>
+          </div>
         </div>
 
-        {/* Bonus Section */}
-        <BonusCards />
-
-        {/* Region Indicator */}
-        <div className="flex justify-center mb-16">
-           <div className="flex items-center gap-3 px-6 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-2xl">
-             <Globe size={14} className="text-purple-400" />
-             <span className="text-xs font-display font-bold tracking-[0.2em] text-white uppercase">Global Ranking</span>
-             <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></div>
+        {/* Dynamic Hero Section */}
+        <div className="text-center mb-16 relative hero-section animate-on-scroll">
+           {/* Dynamic Hero Bloom */}
+           <div className="absolute top-[30%] left-1/2 -translate-x-1/2 -translate-y-[30%] w-[900px] h-[500px] pointer-events-none z-[-1]" 
+                style={{ 
+                  background: `radial-gradient(ellipse at center, ${activeTab === 'BETSTRIKE' ? 'rgba(124,58,237,0.06)' : 'rgba(201,168,76,0.06)'} 0%, transparent 70%)` 
+                }}>
            </div>
+
+           <AnimatePresence mode='wait'>
+             <motion.div
+               key={activeTab}
+               initial={{ opacity: 0, y: 10 }}
+               animate={{ opacity: 1, y: 0 }}
+               exit={{ opacity: 0, y: -10 }}
+               transition={{ duration: 0.3 }}
+             >
+               <motion.div
+                 initial={{ opacity: 0, y: 20 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 transition={{ duration: 0.6 }}
+                 className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full ${theme.accentBorder}/20 ${theme.accentBg}/10 ${theme.accentTw} border text-xs font-bold mb-8 tracking-[0.2em] font-mono uppercase backdrop-blur-md`}
+               >
+                  <span className={`w-1.5 h-1.5 rounded-full ${theme.accentBg} animate-pulse ${theme.glow}`}></span>
+                  {theme.badge}
+               </motion.div>
+               
+               <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-[#e8eaf0] mb-8 tracking-tighter drop-shadow-2xl leading-[0.9] px-5 md:px-0">
+                 <span className={`text-transparent bg-clip-text bg-gradient-to-b from-[#e8eaf0] via-[#e8eaf0] ${activeTab === 'BETSTRIKE' ? 'to-[#8892aa] md:to-[#5a6178]' : 'to-[#c9a84c]/50'}`}>
+                   {theme.titleLine1}
+                 </span>
+                 <br />
+                 <span className={`text-transparent bg-clip-text bg-gradient-to-b from-[#e8eaf0] ${activeTab === 'BETSTRIKE' ? 'via-[#8892aa] md:via-[#5a6178] to-[#1e2433]' : 'via-[#c9a84c] to-[#1e2433]'} text-4xl md:text-6xl lg:text-7xl`}>
+                   {theme.titleLine2}
+                 </span>
+               </h1>
+
+               <p className="text-white text-2xl md:text-3xl max-w-4xl mx-auto mb-10 font-luxury italic font-medium leading-relaxed px-5 md:px-0"
+                  style={{ textShadow: '0 0 30px rgba(255, 255, 255, 0.4), 0 0 10px rgba(255, 255, 255, 0.8)' }}>
+                 {theme.desc}
+                 <span className="text-[#8892aa] md:text-[#8892aa] text-sm mt-4 block font-mono not-italic tracking-normal font-bold uppercase opacity-80" style={{ textShadow: 'none' }}>
+                   {theme.codeLabel} <span className="text-white font-bold bg-[#e8eaf0]/10 px-3 py-1 rounded border border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.1)]">{theme.code}</span>
+                 </span>
+               </p>
+
+               <CountdownTimer />
+             </motion.div>
+           </AnimatePresence>
         </div>
 
-        {/* Podium */}
-        <Podium players={LEADERBOARD_DATA['GLOBAL']} />
+        {/* Bonus Section - Only for BetStrike */}
+        {activeTab === 'BETSTRIKE' && (
+          <motion.div 
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="bonuses-section animate-on-scroll overflow-hidden"
+          >
+            <BonusCards />
+          </motion.div>
+        )}
 
-        {/* Table */}
-        <LeaderboardTable players={LEADERBOARD_DATA['GLOBAL']} />
+        {/* Main Content Area */}
+        <div className="relative min-h-[800px]">
+            {/* BetStrike Tab Content */}
+            {activeTab === 'BETSTRIKE' && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                  {/* Region Indicator (Section A) */}
+                  <div className="flex justify-center mb-16 animate-on-scroll is-visible">
+                    <div className="flex items-center gap-3 px-6 py-2.5 rounded-full bg-[#e8eaf0]/5 border border-[#1e2433] backdrop-blur-md shadow-2xl">
+                      <Globe size={14} className="text-[#7c3aed]" />
+                      <span className="text-xs font-mono font-bold tracking-[0.2em] text-[#e8eaf0] uppercase">Global Ranking</span>
+                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></div>
+                    </div>
+                  </div>
+
+                  {/* BetStrike Leaderboard (Section A) */}
+                  <div className="race-section animate-on-scroll is-visible">
+                      <Podium players={theme.data} />
+                      <LeaderboardTable players={theme.data} />
+                  </div>
+              </motion.div>
+            )}
+
+            {/* Juice.gg Tab Content (Section B) */}
+            {activeTab === 'JUICE' && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                {/* Juice Indicator (Matching Betstrike Layout) */}
+                <div className="flex justify-center mb-16 animate-on-scroll is-visible">
+                  <div className="flex items-center gap-3 px-6 py-2.5 rounded-full bg-[#e8eaf0]/5 border border-[#1e2433] backdrop-blur-md shadow-2xl">
+                     <img src="https://juice.gg/favicon.ico" alt="Juice" className="w-4 h-4 grayscale opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                     <span className="text-xs font-mono font-bold tracking-[0.2em] text-[#e8eaf0] uppercase">GANG × JUICE.GG</span>
+                     <div className="w-1.5 h-1.5 rounded-full bg-[#c9a84c] shadow-[0_0_8px_#c9a84c]"></div>
+                  </div>
+                </div>
+
+                <div className="race-section animate-on-scroll is-visible">
+                  <Podium players={theme.data} variant="JUICE" />
+                  <LeaderboardTable players={theme.data} variant="JUICE" />
+                </div>
+              </motion.div>
+            )}
+        </div>
 
       </main>
 
       {/* Floating Action Buttons */}
-      <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-4">
+      <div className="fixed bottom-8 right-8 z-[100] flex flex-col gap-4">
         <a 
           href={DISCORD_LINK}
           target="_blank"
@@ -219,60 +359,69 @@ const App: React.FC = () => {
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-white/5 bg-[#010103] py-12 relative overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
+      <footer className="border-t border-[#1e2433] bg-[#010103] pt-16 pb-8 relative overflow-hidden z-10">
+        {/* Top Gradient Line */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-[#7c3aed]/50 to-transparent"></div>
         
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
             
             {/* Brand Section */}
-            <div className="flex flex-col gap-4">
-              <div className="font-display font-bold text-xl tracking-wider bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
+            <div className="md:col-span-5 flex flex-col gap-4">
+              <h3 className="text-2xl font-bold font-display tracking-tight text-[#7c3aed]">
                 leaderboat.xyz
-              </div>
-              <p className="text-slate-500 text-sm">
+              </h3>
+              <p className="text-[#8892aa] text-sm leading-relaxed max-w-sm">
                 Track your progress in the $1,000 monthly race.
               </p>
             </div>
 
-            {/* Links Section */}
-            <div className="flex flex-col gap-4">
-              <h3 className="font-display font-bold text-sm text-slate-400 uppercase tracking-wider">Legal</h3>
-              <div className="flex flex-col gap-2">
-                <button onClick={() => {}} className="text-slate-500 hover:text-purple-400 transition-colors text-sm text-left cursor-not-allowed opacity-50" aria-disabled="true">Terms of Service (Coming Soon)</button>
-                <button onClick={() => {}} className="text-slate-500 hover:text-purple-400 transition-colors text-sm text-left cursor-not-allowed opacity-50" aria-disabled="true">Privacy Policy (Coming Soon)</button>
-              </div>
+            {/* Legal Section */}
+            <div className="md:col-span-3 flex flex-col gap-6">
+              <h4 className="text-xs font-bold text-[#e8eaf0] uppercase tracking-widest font-mono">
+                LEGAL
+              </h4>
+              <ul className="flex flex-col gap-3">
+                <li>
+                  <span className="text-[#8892aa] text-sm hover:text-[#e8eaf0] transition-colors cursor-not-allowed">
+                    Terms of Service (Coming Soon)
+                  </span>
+                </li>
+                <li>
+                  <span className="text-[#8892aa] text-sm hover:text-[#e8eaf0] transition-colors cursor-not-allowed">
+                    Privacy Policy (Coming Soon)
+                  </span>
+                </li>
+              </ul>
             </div>
 
-            {/* Responsible Gaming */}
-            <div className="flex flex-col gap-4">
-              <h3 className="font-display font-bold text-sm text-slate-400 uppercase tracking-wider">Responsible Gaming</h3>
+            {/* Responsible Gaming Section */}
+            <div className="md:col-span-4 flex flex-col gap-6">
+              <h4 className="text-xs font-bold text-[#e8eaf0] uppercase tracking-widest font-mono">
+                RESPONSIBLE GAMING
+              </h4>
               <a 
-                href="https://www.begambleaware.org" 
-                target="_blank" 
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 text-slate-500 hover:text-purple-400 transition-colors text-sm w-fit"
+                href="https://www.begambleaware.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center px-4 py-2 bg-[#1e2433]/50 border border-[#1e2433] rounded-lg text-[#8892aa] hover:text-[#e8eaf0] hover:border-[#5a6178] transition-all text-xs font-bold font-mono w-fit"
               >
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded border border-white/10">
-                  <span className="text-xs font-bold">18+</span>
-                  <span className="text-xs">BeGambleAware.org</span>
-                </div>
+                18+ BeGambleAware.org
               </a>
-              <p className="text-slate-600 text-xs">
-                Please gamble responsibly. If you need help, visit BeGambleAware.org
+              <p className="text-[#5a6178] text-xs leading-relaxed">
+                Please gamble responsibly. If you need help, visit <a href="https://www.begambleaware.org/" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#8892aa]">BeGambleAware.org</a>
               </p>
             </div>
           </div>
 
           {/* Bottom Bar */}
-          <div className="pt-8 border-t border-white/5">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <p className="text-slate-600 text-xs">
-                © {new Date().getFullYear()} leaderboat.xyz. All rights reserved.
-              </p>
-              <p className="text-slate-700 text-xs">
-                Made with 💜 
-              </p>
+          <div className="pt-8 border-t border-[#1e2433] flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-[#5a6178] text-xs">
+              © 2026 leaderboat.xyz. All rights reserved.
+            </p>
+            <div className="flex items-center gap-2 text-[#5a6178] text-xs">
+              <span>Made with</span>
+              <span className="text-[#7c3aed] animate-pulse">💜</span>
             </div>
           </div>
         </div>

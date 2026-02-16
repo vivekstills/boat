@@ -20,10 +20,13 @@ const CountdownTimer: React.FC = () => {
   };
 
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft());
+  const [tick, setTick] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
+      setTick(true);
+      setTimeout(() => setTick(false), 150);
     }, 1000);
 
     return () => clearInterval(timer);
@@ -32,36 +35,36 @@ const CountdownTimer: React.FC = () => {
   const TimeUnit = ({ value, label }: { value: number; label: string }) => (
     <div className="flex flex-col items-center">
       <div className="relative group perspective-500">
-        <div className="absolute -inset-0.5 bg-gradient-to-b from-purple-500 to-indigo-500 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
-        <div className="relative bg-[#0A0A12]/80 backdrop-blur-xl border border-white/10 rounded-xl p-4 min-w-[70px] md:min-w-[90px] flex items-center justify-center shadow-2xl">
+        <div className="absolute -inset-0.5 bg-gradient-to-b from-[#7c3aed] to-[#7c3aed] rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
+        <div className="relative bg-[#0A0A12]/80 backdrop-blur-xl border border-[#1e2433] rounded-xl p-4 min-w-[70px] md:min-w-[90px] flex items-center justify-center shadow-2xl">
           {/* Inner highlight */}
-          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#5a6178]/20 to-transparent"></div>
           
-          <span className="text-3xl md:text-4xl font-bold text-white font-mono tracking-tighter tabular-nums drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
+          <span className={`text-[36px] md:text-4xl font-bold text-[#e8eaf0] font-display tracking-tighter tabular-nums drop-shadow-[0_0_10px_rgba(232,234,240,0.3)] ${tick ? 'tick' : ''}`}>
             {value.toString().padStart(2, '0')}
           </span>
         </div>
       </div>
-      <span className="text-[10px] text-slate-500 uppercase mt-3 font-bold tracking-[0.2em]">{label}</span>
+      <span className="text-[9px] md:text-[10px] text-[#5a6178] uppercase mt-3 font-bold tracking-[0.2em] font-mono">{label}</span>
     </div>
   );
 
   const Separator = () => (
     <div className="h-[70px] flex items-center pb-6">
        <div className="flex flex-col gap-3 opacity-50">
-         <div className="w-1 h-1 rounded-full bg-slate-500"></div>
-         <div className="w-1 h-1 rounded-full bg-slate-500"></div>
+         <div className="w-1 h-1 rounded-full bg-[#5a6178]"></div>
+         <div className="w-1 h-1 rounded-full bg-[#5a6178]"></div>
        </div>
     </div>
   )
 
   return (
     <div className="flex flex-col items-center justify-center my-8">
-      <div className="flex items-center gap-2 mb-6 text-purple-300/80">
+      <div className="flex items-center gap-2 mb-6 text-[#7c3aed]/80">
         <Timer size={14} className="animate-pulse" />
-        <span className="text-[10px] font-bold tracking-[0.3em] uppercase">Competition Ends In</span>
+        <span className="text-[10px] font-bold tracking-[0.3em] uppercase font-mono">Competition Ends In</span>
       </div>
-      <div className="flex items-center gap-2 md:gap-4">
+      <div className="flex items-center gap-1 md:gap-4">
         <TimeUnit value={timeLeft.days} label="Days" />
         <Separator />
         <TimeUnit value={timeLeft.hours} label="Hrs" />

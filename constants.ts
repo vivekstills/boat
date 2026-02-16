@@ -1,64 +1,51 @@
 import { Player, Bonus, Region } from './types';
 
-export const TARGET_DATE = '2026-03-10T00:00:00';
+export const TARGET_DATE = '2026-03-05T00:00:00';
 export const REFERRAL_CODE = 'BOAT';
 export const REFERRAL_LINK = 'https://betstrike.com/ref/boat';
-export const DISCORD_LINK = 'https://discord.gg/zDWv3Ba9b';
+export const JUICE_LINK = 'https://juice.gg/r/gang';
+export const DISCORD_LINK = 'https://discord.gg/meMNuXha';
 export const KICK_LINK = 'https://kick.com/imboat';
 
 export const BONUSES: Bonus[] = [
   {
     title: 'DEPOSIT BONUS',
-    value: '5%',
+    value: '10%',
     icon: 'Zap',
-    color: 'from-purple-500 to-indigo-600'
+    color: 'from-[#7c3aed] to-[#7c3aed]'
   },
   {
     title: 'LOSSBACK',
     value: '5%',
     icon: 'Shield',
-    color: 'from-blue-500 to-cyan-500'
+    color: 'from-[#c9a84c] to-[#c9a84c]'
   }
 ];
 
-// Raw data provided
-const RAW_PLAYERS = [
-  { username: 'niggaboy', wagered: 3660 },
-  { username: 'angelofdeath', wagered: 1803 },
-  { username: 'Boatmom', wagered: 1670 },
-  { username: 'Omixboat', wagered: 1157 },
-  { username: 'Optimnob', wagered: 731 },
+// Specific data from screenshot
+const BETSTRIKE_REAL_DATA: Player[] = [
+  { rank: 1, username: 'niggaboy', wagered: 3660, prize: 500, change: 'neutral' },
+  { rank: 2, username: 'angelofdeath', wagered: 1803, prize: 250, change: 'neutral' },
+  { rank: 3, username: 'Boatmom', wagered: 1670, prize: 125, change: 'neutral' },
+  { rank: 4, username: 'Omixboat', wagered: 1157, prize: 75, change: 'neutral' },
+  { rank: 5, username: 'Optimnob', wagered: 731, prize: 50, change: 'neutral' },
 ];
 
-const generateRealData = (region: string): Player[] => {
-  // Sort by wagered descending just in case
-  const sortedPlayers = [...RAW_PLAYERS].sort((a, b) => b.wagered - a.wagered);
-
-  return sortedPlayers.map((p, index) => {
-    const rank = index + 1;
-    let prize = 0;
-    if (rank === 1) prize = 500;
-    else if (rank === 2) prize = 250;
-    else if (rank === 3) prize = 125;
-    else if (rank === 4) prize = 75;
-    else if (rank === 5) prize = 50;
-
-    return {
-      rank,
-      username: p.username,
-      wagered: p.wagered,
-      prize,
-      change: 'neutral'
-    };
-  });
-};
-
 export const LEADERBOARD_DATA: Record<Region, Player[]> = {
-  GLOBAL: generateRealData('GLOBAL'),
+  GLOBAL: BETSTRIKE_REAL_DATA,
 };
+
+// Empty names, 0 wagered, but keep prizes and positions
+export const JUICE_PLAYERS: Player[] = [
+  { rank: 1, username: '', wagered: 0, prize: 250, change: 'neutral' },
+  { rank: 2, username: '', wagered: 0, prize: 150, change: 'neutral' },
+  { rank: 3, username: '', wagered: 0, prize: 50, change: 'neutral' },
+  { rank: 4, username: '', wagered: 0, prize: 25, change: 'neutral' },
+  { rank: 5, username: '', wagered: 0, prize: 15, change: 'neutral' },
+  { rank: 6, username: '', wagered: 0, prize: 10, change: 'neutral' },
+];
 
 export const MASK_USERNAME = (name: string) => {
-  // Returning full name as specific community data was provided
   return name;
 };
 
