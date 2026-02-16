@@ -27,7 +27,7 @@ const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'BETSTRIKE' | 'JUICE'>('BETSTRIKE');
   
   // Fetch juice.gg leaderboard data
-  const { players: juicePlayers } = useJuiceLeaderboard();
+  const { players: juicePlayers, lastUpdated } = useJuiceLeaderboard();
 
   // Theme Configuration (now dynamic with live juice data)
   const THEMES = {
@@ -324,7 +324,12 @@ const App: React.FC = () => {
                   <div className="flex items-center gap-3 px-6 py-2.5 rounded-full bg-[#e8eaf0]/5 border border-[#1e2433] backdrop-blur-md shadow-2xl">
                      <img src="https://juice.gg/favicon.ico" alt="Juice" className="w-4 h-4 grayscale opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                      <span className="text-xs font-mono font-bold tracking-[0.2em] text-[#e8eaf0] uppercase">GANG × JUICE.GG</span>
-                     <div className="w-1.5 h-1.5 rounded-full bg-[#c9a84c] shadow-[0_0_8px_#c9a84c]"></div>
+                     <div className="w-1.5 h-1.5 rounded-full bg-[#c9a84c] shadow-[0_0_8px_#c9a84c] animate-pulse"></div>
+                     {lastUpdated && juicePlayers.length > 0 && (
+                       <span className="text-[10px] font-mono text-[#5a6178] ml-2">
+                         LIVE
+                       </span>
+                     )}
                   </div>
                 </div>
 
