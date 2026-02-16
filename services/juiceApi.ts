@@ -11,10 +11,10 @@ import { Player } from '../types';
  * - VITE_JUICE_API_KEY: Required API key for juice.gg authentication
  * 
  * Features:
- * - Automatic retry with mock data fallback
  * - Real-time sync every 30 seconds
  * - Loading indicators and sync status
  * - TypeScript type safety
+ * - Proper error handling and reporting
  */
 
 // API Configuration
@@ -46,7 +46,7 @@ export async function fetchJuiceLeaderboard(): Promise<Player[]> {
     });
 
     if (!response.ok) {
-      throw new Error(`API request failed with status ${response.status}`);
+      throw new Error(`API request to ${JUICE_API_BASE_URL}/leaderboard failed with status ${response.status}: ${response.statusText}`);
     }
 
     const data: JuiceLeaderboardResponse = await response.json();
@@ -60,22 +60,13 @@ export async function fetchJuiceLeaderboard(): Promise<Player[]> {
       change: 'neutral' as const,
     }));
   } catch (error) {
+    // Log the error for debugging
     console.error('Error fetching juice.gg leaderboard:', error);
     
-    // Return mock data if API fails (for demo purposes)
-    // TODO: Remove this fallback when API is stable
-    return getMockJuiceLeaderboard();
+    // Re-throw the error so calling code can handle it appropriately
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error('Failed to fetch leaderboard data from juice.gg API');
   }
-}
-
-// Mock data fallback - simulates juice.gg API response
-function getMockJuiceLeaderboard(): Player[] {
-  return [
-    { rank: 1, username: 'smila', wagered: 12500, prize: 250, change: 'neutral' },
-    { rank: 2, username: 'boat', wagered: 9800, prize: 150, change: 'neutral' },
-    { rank: 3, username: 'angel_of_death', wagered: 7200, prize: 50, change: 'neutral' },
-    { rank: 4, username: 'player_04', wagered: 5100, prize: 25, change: 'neutral' },
-    { rank: 5, username: 'player_05', wagered: 3400, prize: 15, change: 'neutral' },
-    { rank: 6, username: 'player_06', wagered: 2100, prize: 10, change: 'neutral' },
-  ];
 }
