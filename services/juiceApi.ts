@@ -1,8 +1,9 @@
 import { Player } from '../types';
 
-const JUICE_API_URL = 'https://api.juice.gg';
-const JUICE_API_KEY = 'ddd3a1eb-7e91-41f0-bb9b-7105bf25145d';
-const JUICE_CODE = 'GANG';
+// Environment configuration with fallback values
+const JUICE_API_URL = import.meta.env.VITE_JUICE_API_URL || 'https://api.juice.gg';
+const JUICE_API_KEY = import.meta.env.VITE_JUICE_API_KEY || 'ddd3a1eb-7e91-41f0-bb9b-7105bf25145d';
+const JUICE_CODE = import.meta.env.VITE_JUICE_CODE || 'GANG';
 
 // Try multiple possible endpoints
 const API_ENDPOINTS = [

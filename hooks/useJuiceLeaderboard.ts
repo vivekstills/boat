@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Player } from '../types';
 import { fetchJuiceLeaderboard } from '../services/juiceApi';
 
@@ -21,7 +21,7 @@ export function useJuiceLeaderboard(): UseJuiceLeaderboardResult {
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
-  const refresh = async () => {
+  const refresh = useCallback(async () => {
     try {
       setError(null);
       const data = await fetchJuiceLeaderboard();
@@ -32,7 +32,7 @@ export function useJuiceLeaderboard(): UseJuiceLeaderboardResult {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     // Initial fetch
@@ -45,7 +45,7 @@ export function useJuiceLeaderboard(): UseJuiceLeaderboardResult {
 
     // Cleanup interval on unmount
     return () => clearInterval(interval);
-  }, []);
+  }, [refresh]);
 
   return {
     players,
