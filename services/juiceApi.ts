@@ -36,26 +36,37 @@ interface JuiceLeaderboardResponse {
 
 // Fetch leaderboard data from juice.gg API
 export async function fetchJuiceLeaderboard(): Promise<Player[]> {
-  const response = await fetch(`${JUICE_API_BASE_URL}/leaderboard`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${JUICE_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
-  });
+  try {
+    const response = await fetch(`${JUICE_API_BASE_URL}/leaderboard`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${JUICE_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+    });
 
-  if (!response.ok) {
-    throw new Error(`API request failed with status ${response.status}: ${response.statusText}`);
+    if (!response.ok) {
+      throw new Error(`API request to ${JUICE_API_BASE_URL}/leaderboard failed with status ${response.status}: ${response.statusText}`);
+    }
+
+    const data: JuiceLeaderboardResponse = await response.json();
+    
+    // Transform API response to Player format
+    return data.players.map(player => ({
+      rank: player.rank,
+      username: player.username,
+      wagered: player.wagered,
+      prize: player.prize,
+      change: 'neutral' as const,
+    }));
+  } catch (error) {
+    // Log the error for debugging
+    console.error('Error fetching juice.gg leaderboard:', error);
+    
+    // Re-throw the error so calling code can handle it appropriately
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error('Failed to fetch leaderboard data from juice.gg API');
   }
-
-  const data: JuiceLeaderboardResponse = await response.json();
-  
-  // Transform API response to Player format
-  return data.players.map(player => ({
-    rank: player.rank,
-    username: player.username,
-    wagered: player.wagered,
-    prize: player.prize,
-    change: 'neutral' as const,
-  }));
 }
