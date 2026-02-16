@@ -4,6 +4,7 @@ import CountdownTimer from './components/CountdownTimer';
 import Podium from './components/Podium';
 import LeaderboardTable from './components/LeaderboardTable';
 import BonusCards from './components/BonusCards';
+import GangLeaderboard from './components/GangLeaderboard';
 import { Copy, ExternalLink, Menu, X, Globe, RefreshCw } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { fetchJuiceLeaderboard } from './services/juiceApi';
@@ -183,16 +184,7 @@ const App: React.FC = () => {
       <header className="fixed top-0 w-full z-50 bg-[#020205]/60 backdrop-blur-xl border-b border-white/5">
         <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
           
-          {/* Desktop Logo */}
-          {activeTab === 'BETSTRIKE' && (
-            <div className="hidden md:flex items-center gap-3">
-              <div className="font-display font-bold text-2xl tracking-wider bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
-                BetStrike
-              </div>
-              <div className="text-slate-600 text-sm">|</div>
-              <div className="text-slate-400 text-sm font-medium">Leaderboard</div>
-            </div>
-          )}
+          {/* Desktop Logo - Removed per requirements */}
           
           {/* Mobile Logo / Title */}
           <div className="md:hidden flex items-center gap-2">
@@ -414,9 +406,18 @@ const App: React.FC = () => {
                       )}
                     </div>
 
-                    <div className="race-section">
-                      <Podium players={theme.data} variant="JUICE" />
-                      <LeaderboardTable players={theme.data} variant="JUICE" />
+                    {/* Two-column layout: Leaderboard on left, GangLeaderboard on right */}
+                    <div className="flex flex-col lg:flex-row gap-8 items-start">
+                      {/* Left column: Main leaderboard */}
+                      <div className="race-section flex-1">
+                        <Podium players={theme.data} variant="JUICE" />
+                        <LeaderboardTable players={theme.data} variant="JUICE" />
+                      </div>
+                      
+                      {/* Right column: Gang Leaderboard */}
+                      <div className="w-full lg:w-auto lg:min-w-[400px] lg:max-w-[500px]">
+                        <GangLeaderboard />
+                      </div>
                     </div>
                   </motion.div>
                 )}
