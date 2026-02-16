@@ -4,8 +4,10 @@ import CountdownTimer from './components/CountdownTimer';
 import Podium from './components/Podium';
 import LeaderboardTable from './components/LeaderboardTable';
 import BonusCards from './components/BonusCards';
-import { Copy, ExternalLink, Menu, X, Globe } from 'lucide-react';
+import { Copy, ExternalLink, Menu, X, Globe, RefreshCw } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { fetchJuiceLeaderboard } from './services/juiceApi';
+import type { Player } from './types';
 
 // SVG Icons
 const DiscordIcon = ({ className }: { className?: string }) => (
@@ -20,54 +22,112 @@ const KickIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-// Theme Configuration
-const THEMES = {
-  BETSTRIKE: {
-    accent: '#7c3aed',
-    accentTw: 'text-[#7c3aed]',
-    accentBg: 'bg-[#7c3aed]',
-    accentBorder: 'border-[#7c3aed]',
-    glow: 'shadow-[0_0_10px_#7c3aed]',
-    badge: 'Live Competition',
-    titleLine1: '$1,000',
-    titleLine2: 'MONTHLY RACE',
-    desc: (
-      <>
-        Every bet under code{' '}
-        <span className="font-bold text-[#8b5cf6] drop-shadow-[0_0_15px_rgba(139,92,246,0.5)]">
-          "BOAT"
-        </span>{' '}
-        counts towards your score.
-      </>
-    ),
-    codeLabel: 'Entry Code:',
-    code: REFERRAL_CODE,
-    data: LEADERBOARD_DATA['GLOBAL'],
-    link: REFERRAL_LINK,
-    siteName: 'BETSTRIKE'
-  },
-  JUICE: {
-    accent: '#c9a84c',
-    accentTw: 'text-[#c9a84c]',
-    accentBg: 'bg-[#c9a84c]',
-    accentBorder: 'border-[#c9a84c]',
-    glow: 'shadow-[0_0_10px_#c9a84c]',
-    badge: 'GANG × JUICE.GG',
-    titleLine1: '500 COINS',
-    titleLine2: 'WEEKLY RACE',
-    desc: "Who's eating this week? Prize distribution for the community.",
-    codeLabel: 'Use Code:',
-    code: 'GANG',
-    data: JUICE_PLAYERS,
-    link: JUICE_LINK,
-    siteName: 'JUICE.GG'
-  }
+// Helper function to format time elapsed
+const formatTimeAgo = (seconds: number): string => {
+  if (seconds < 3) return 'just now';
+  if (seconds < 60) return `${seconds}s ago`;
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  return `${hours}h ago`;
 };
 
 const App: React.FC = () => {
   const [isCopied, setIsCopied] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'BETSTRIKE' | 'JUICE'>('BETSTRIKE');
+  const [juiceData, setJuiceData] = useState<Player[]>(JUICE_PLAYERS);
+  const [isLoading, setIsLoading] = useState(false);
+  const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
+  const [secondsAgo, setSecondsAgo] = useState(0);
+
+  // Fetch juice.gg leaderboard data
+  const loadJuiceData = async () => {
+    setIsLoading(true);
+    try {
+      const data = await fetchJuiceLeaderboard();
+      setJuiceData(data);
+      setLastUpdate(new Date());
+    } catch (error) {
+      console.error('Failed to load juice.gg data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Initial load and auto-refresh for juice.gg data
+  useEffect(() => {
+    // Load data immediately
+    loadJuiceData();
+
+    // Set up auto-refresh every 30 seconds
+    const interval = setInterval(() => {
+      loadJuiceData();
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Update "seconds ago" counter
+  useEffect(() => {
+    if (!lastUpdate) return;
+
+    const updateCounter = () => {
+      setSecondsAgo(Math.floor((Date.now() - lastUpdate.getTime()) / 1000));
+    };
+
+    // Update immediately
+    updateCounter();
+
+    // Update every second
+    const interval = setInterval(updateCounter, 1000);
+
+    return () => clearInterval(interval);
+  }, [lastUpdate]);
+
+  // Theme Configuration (using dynamic juiceData)
+  const THEMES = {
+    BETSTRIKE: {
+      accent: '#7c3aed',
+      accentTw: 'text-[#7c3aed]',
+      accentBg: 'bg-[#7c3aed]',
+      accentBorder: 'border-[#7c3aed]',
+      glow: 'shadow-[0_0_10px_#7c3aed]',
+      badge: 'Live Competition',
+      titleLine1: '$1,000',
+      titleLine2: 'MONTHLY RACE',
+      desc: (
+        <>
+          Every bet under code{' '}
+          <span className="font-bold text-[#8b5cf6] drop-shadow-[0_0_15px_rgba(139,92,246,0.5)]">
+            "BOAT"
+          </span>{' '}
+          counts towards your score.
+        </>
+      ),
+      codeLabel: 'Entry Code:',
+      code: REFERRAL_CODE,
+      data: LEADERBOARD_DATA['GLOBAL'],
+      link: REFERRAL_LINK,
+      siteName: 'BETSTRIKE'
+    },
+    JUICE: {
+      accent: '#c9a84c',
+      accentTw: 'text-[#c9a84c]',
+      accentBg: 'bg-[#c9a84c]',
+      accentBorder: 'border-[#c9a84c]',
+      glow: 'shadow-[0_0_10px_#c9a84c]',
+      badge: 'GANG × JUICE.GG',
+      titleLine1: '500 COINS',
+      titleLine2: 'WEEKLY RACE',
+      desc: "Who's eating this week? Prize distribution for the community.",
+      codeLabel: 'Use Code:',
+      code: 'GANG',
+      data: juiceData,
+      link: JUICE_LINK,
+      siteName: 'JUICE.GG'
+    }
+  };
 
   // Entrance animations observer
   useEffect(() => {
@@ -321,13 +381,23 @@ const App: React.FC = () => {
                     variants={contentVariants}
                     transition={{ duration: 0.4, ease: "easeOut" }}
                   >
-                    {/* Juice Indicator */}
-                    <div className="flex justify-center mb-16">
+                    {/* Juice Indicator with Auto-Sync */}
+                    <div className="flex flex-col items-center gap-3 mb-16">
                       <div className="flex items-center gap-3 px-6 py-2.5 rounded-full bg-[#e8eaf0]/5 border border-[#1e2433] backdrop-blur-md shadow-2xl">
                          <img src="https://juice.gg/favicon.ico" alt="Juice" className="w-4 h-4 grayscale opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                          <span className="text-xs font-mono font-bold tracking-[0.2em] text-[#e8eaf0] uppercase">GANG × JUICE.GG</span>
-                         <div className="w-1.5 h-1.5 rounded-full bg-[#c9a84c] shadow-[0_0_8px_#c9a84c]"></div>
+                         <div className={`w-1.5 h-1.5 rounded-full ${isLoading ? 'bg-yellow-500 animate-pulse' : 'bg-[#c9a84c]'} shadow-[0_0_8px_#c9a84c]`}></div>
+                         {isLoading && (
+                           <RefreshCw size={12} className="text-[#c9a84c] animate-spin" />
+                         )}
                       </div>
+                      {lastUpdate && (
+                        <div className="text-[10px] font-mono text-[#5a6178] flex items-center gap-2">
+                          <span>Auto-synced with juice.gg API</span>
+                          <span className="text-[#8892aa]">•</span>
+                          <span>Updated {formatTimeAgo(secondsAgo)}</span>
+                        </div>
+                      )}
                     </div>
 
                     <div className="race-section">
