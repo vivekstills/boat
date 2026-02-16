@@ -68,8 +68,9 @@ const PodiumCard: React.FC<{ player: Player; position: number; variant: 'BETSTRI
     };
   }
 
-  const formatValue = (val: number) => variant === 'JUICE' ? val.toString() : FORMAT_CURRENCY(val);
-  const wagerLabel = variant === 'JUICE' ? 'WAGERED' : 'Total Wagered';
+  const formatValue = (val: number) => FORMAT_CURRENCY(val);
+  // JUICE uses all-caps "TOTAL WAGERED" per design spec, BetStrike uses title case
+  const wagerLabel = variant === 'JUICE' ? 'TOTAL WAGERED' : 'Total Wagered';
   
   const hasName = player.username && player.username.length > 0;
 
