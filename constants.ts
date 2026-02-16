@@ -35,15 +35,8 @@ export const LEADERBOARD_DATA: Record<Region, Player[]> = {
   GLOBAL: BETSTRIKE_REAL_DATA,
 };
 
-// Empty names, 0 wagered, but keep prizes and positions
-export const JUICE_PLAYERS: Player[] = [
-  { rank: 1, username: '', wagered: 0, prize: 250, change: 'neutral' },
-  { rank: 2, username: '', wagered: 0, prize: 150, change: 'neutral' },
-  { rank: 3, username: '', wagered: 0, prize: 50, change: 'neutral' },
-  { rank: 4, username: '', wagered: 0, prize: 25, change: 'neutral' },
-  { rank: 5, username: '', wagered: 0, prize: 15, change: 'neutral' },
-  { rank: 6, username: '', wagered: 0, prize: 10, change: 'neutral' },
-];
+// Initial state for Juice.gg leaderboard (will be populated from API)
+export const JUICE_PLAYERS: Player[] = [];
 
 export const MASK_USERNAME = (name: string) => {
   return name;
