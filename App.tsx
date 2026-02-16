@@ -6,6 +6,7 @@ import LeaderboardTable from './components/LeaderboardTable';
 import BonusCards from './components/BonusCards';
 import { Copy, ExternalLink, Menu, X, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useJuiceLeaderboard } from './hooks/useJuiceLeaderboard';
 
 // SVG Icons
 const DiscordIcon = ({ className }: { className?: string }) => (
@@ -20,46 +21,49 @@ const KickIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-// Theme Configuration
-const THEMES = {
-  BETSTRIKE: {
-    accent: '#7c3aed',
-    accentTw: 'text-[#7c3aed]',
-    accentBg: 'bg-[#7c3aed]',
-    accentBorder: 'border-[#7c3aed]',
-    glow: 'shadow-[0_0_10px_#7c3aed]',
-    badge: 'Live Competition',
-    titleLine1: '$1,000',
-    titleLine2: 'MONTHLY RACE',
-    desc: 'Wager to ascend the ranks. The top 10 elite share the prize pool.',
-    codeLabel: 'Entry Code:',
-    code: REFERRAL_CODE,
-    data: LEADERBOARD_DATA['GLOBAL'],
-    link: REFERRAL_LINK,
-    siteName: 'BETSTRIKE'
-  },
-  JUICE: {
-    accent: '#c9a84c',
-    accentTw: 'text-[#c9a84c]',
-    accentBg: 'bg-[#c9a84c]',
-    accentBorder: 'border-[#c9a84c]',
-    glow: 'shadow-[0_0_10px_#c9a84c]',
-    badge: 'GANG × JUICE.GG',
-    titleLine1: '500 COINS',
-    titleLine2: 'WEEKLY RACE',
-    desc: "Who's eating this week? Prize distribution for the community.",
-    codeLabel: 'Use Code:',
-    code: 'GANG',
-    data: JUICE_PLAYERS,
-    link: JUICE_LINK,
-    siteName: 'JUICE.GG'
-  }
-};
-
 const App: React.FC = () => {
   const [isCopied, setIsCopied] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'BETSTRIKE' | 'JUICE'>('BETSTRIKE');
+  
+  // Fetch juice.gg leaderboard data
+  const { players: juicePlayers } = useJuiceLeaderboard();
+
+  // Theme Configuration (now dynamic with live juice data)
+  const THEMES = {
+    BETSTRIKE: {
+      accent: '#7c3aed',
+      accentTw: 'text-[#7c3aed]',
+      accentBg: 'bg-[#7c3aed]',
+      accentBorder: 'border-[#7c3aed]',
+      glow: 'shadow-[0_0_10px_#7c3aed]',
+      badge: 'Live Competition',
+      titleLine1: '$1,000',
+      titleLine2: 'MONTHLY RACE',
+      desc: 'Wager to ascend the ranks. The top 10 elite share the prize pool.',
+      codeLabel: 'Entry Code:',
+      code: REFERRAL_CODE,
+      data: LEADERBOARD_DATA['GLOBAL'],
+      link: REFERRAL_LINK,
+      siteName: 'BETSTRIKE'
+    },
+    JUICE: {
+      accent: '#c9a84c',
+      accentTw: 'text-[#c9a84c]',
+      accentBg: 'bg-[#c9a84c]',
+      accentBorder: 'border-[#c9a84c]',
+      glow: 'shadow-[0_0_10px_#c9a84c]',
+      badge: 'GANG × JUICE.GG',
+      titleLine1: '500 COINS',
+      titleLine2: 'WEEKLY RACE',
+      desc: "Who's eating this week? Prize distribution for the community.",
+      codeLabel: 'Use Code:',
+      code: 'GANG',
+      data: juicePlayers.length > 0 ? juicePlayers : JUICE_PLAYERS,
+      link: JUICE_LINK,
+      siteName: 'JUICE.GG'
+    }
+  };
 
   // Entrance animations observer
   useEffect(() => {
