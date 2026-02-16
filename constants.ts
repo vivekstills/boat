@@ -12,13 +12,13 @@ export const BONUSES: Bonus[] = [
     title: 'DEPOSIT BONUS',
     value: '10%',
     icon: 'Zap',
-    color: 'from-[#7c3aed] to-[#7c3aed]'
+    color: 'from-purple-500 to-indigo-600'
   },
   {
     title: 'LOSSBACK',
     value: '5%',
     icon: 'Shield',
-    color: 'from-[#3b82f6] to-[#1d4ed8]'
+    color: 'from-blue-500 to-cyan-500'
   }
 ];
 
