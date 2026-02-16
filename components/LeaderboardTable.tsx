@@ -23,8 +23,8 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ players, variant = 
   };
 
   const formatValue = (val: number) => FORMAT_CURRENCY(val);
-  const prizeHeader = variant === 'JUICE' ? 'Prize' : 'Prize';
-  const showWagered = true;
+  const prizeHeader = 'Prize';
+  const showWagered = true; // Always show wagered column for both variants
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 pb-20">
