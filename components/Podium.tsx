@@ -30,10 +30,10 @@ const PodiumCard: React.FC<{ player: Player; position: number; variant: 'BETSTRI
   if (isFirst) {
     config = {
       gradient: 'from-[#c9a84c]/20 to-[#c9a84c]/5',
-      border: 'border-[#c9a84c]/30',
-      shadow: 'shadow-[0_0_50px_-10px_rgba(201,168,76,0.3)]',
+      border: 'border-[#c9a84c]/40',
+      shadow: 'shadow-[0_0_60px_-10px_rgba(201,168,76,0.25)]',
       iconColor: 'text-[#c9a84c]',
-      height: 'md:-mt-12 scale-105 z-20',
+      height: 'md:-mt-16 scale-110 z-20',
       order: 'order-1 md:order-2 col-span-2',
       Icon: Crown,
       delay: 0.2,
@@ -43,8 +43,8 @@ const PodiumCard: React.FC<{ player: Player; position: number; variant: 'BETSTRI
   } else if (isSecond) {
     config = {
       gradient: 'from-[#5a6178]/20 to-[#5a6178]/5',
-      border: 'border-[#1e2433]',
-      shadow: 'shadow-[0_0_30px_-10px_rgba(90,97,120,0.1)]',
+      border: 'border-[#5a6178]/30',
+      shadow: 'shadow-[0_0_30px_-10px_rgba(90,97,120,0.2)]',
       iconColor: 'text-[#8892aa]',
       height: 'md:mt-4 z-10',
       order: 'order-2 md:order-1 col-span-1',
@@ -56,8 +56,8 @@ const PodiumCard: React.FC<{ player: Player; position: number; variant: 'BETSTRI
   } else if (isThird) {
     config = {
       gradient: 'from-[#cd7f32]/20 to-[#cd7f32]/5',
-      border: 'border-[#1e2433]',
-      shadow: 'shadow-[0_0_30px_-10px_rgba(205,127,50,0.1)]',
+      border: 'border-[#cd7f32]/30',
+      shadow: 'shadow-[0_0_30px_-10px_rgba(205,127,50,0.2)]',
       iconColor: 'text-[#cd7f32]',
       height: 'md:mt-12 z-10',
       order: 'order-3 md:order-3 col-span-1',
@@ -68,9 +68,8 @@ const PodiumCard: React.FC<{ player: Player; position: number; variant: 'BETSTRI
     };
   }
 
-  const formatValue = (val: number) => FORMAT_CURRENCY(val);
-  // JUICE uses all-caps "TOTAL WAGERED" per design spec, BetStrike uses title case
-  const wagerLabel = variant === 'JUICE' ? 'TOTAL WAGERED' : 'Total Wagered';
+  const formatValue = (val: number) => variant === 'JUICE' ? val.toString() : FORMAT_CURRENCY(val);
+  const wagerLabel = variant === 'JUICE' ? 'WAGERED' : 'WAGERED';
   
   const hasName = player.username && player.username.length > 0;
 
@@ -81,74 +80,86 @@ const PodiumCard: React.FC<{ player: Player; position: number; variant: 'BETSTRI
       transition={{ delay: config.delay, duration: 0.6, type: "spring", stiffness: 100 }}
       className={`relative flex flex-col items-center w-full max-w-[320px] mx-auto ${config.order} ${config.height}`}
     >
-      {/* Background Glow */}
-      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] rounded-full blur-[80px] opacity-10 ${config.glowColor}`}></div>
+      {/* Background Vertical Light Beam for #1 */}
+      {isFirst && (
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-[120%] bg-gradient-to-t from-[#c9a84c]/10 via-transparent to-transparent blur-[40px] pointer-events-none -z-10"></div>
+      )}
 
+      {/* Glass Card */}
       <div className={`
         relative w-full overflow-hidden
-        bg-[#0A0A12] 
-        border ${config.border} rounded-3xl
+        bg-[#0e0e12]/40 backdrop-blur-xl
+        border ${config.border} rounded-[2rem]
         ${config.shadow}
         flex flex-col items-center justify-between
-        group transition-all duration-300 hover:transform hover:-translate-y-2 hover:bg-[#0E0E16]
-        min-h-[280px] md:min-h-[320px]
+        group transition-all duration-300 hover:transform hover:-translate-y-2 hover:bg-[#0e0e12]/60
+        min-h-[280px] md:min-h-[340px]
       `}>
-        {/* Corner Rank Number */}
+        {/* Top Highlight Line */}
+        <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+
+        {/* Corner Rank Badge */}
         <div className={`
-          absolute top-0 right-0 
-          w-20 h-20 md:w-24 md:h-24
+          absolute top-4 right-4 
+          w-12 h-12
           flex items-center justify-center
-          rounded-bl-3xl
-          border-b border-l ${config.border}
-          bg-[#ffffff]/[0.02]
+          rounded-full
+          border ${config.border}
+          bg-[#ffffff]/[0.03]
+          backdrop-blur-sm
           z-10
         `}>
-          <span className={`text-4xl md:text-5xl font-bold font-display ${config.iconColor}`}>
+          <span className={`text-xl font-bold font-display ${config.iconColor}`}>
             {position}
           </span>
         </div>
 
         {/* Shine Effect */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-[#e8eaf0]/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
+        <div className="absolute inset-0 bg-gradient-to-tr from-white/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0 pointer-events-none"></div>
 
         {/* Content */}
-        <div className="p-8 flex flex-col items-center w-full text-center relative z-20 flex-1 justify-center pt-16">
+        <div className="p-8 flex flex-col items-center w-full text-center relative z-20 flex-1 justify-center pt-12">
           
           {/* Avatar / Icon Circle */}
           <div className={`
-            relative p-1 rounded-full mb-6 
-            bg-gradient-to-b from-[#e8eaf0]/5 to-transparent border border-[#1e2433]
+            relative p-1.5 rounded-full mb-6 
+            bg-gradient-to-b from-white/10 to-transparent border border-white/5
+            ${isFirst ? 'shadow-[0_0_30px_-5px_rgba(201,168,76,0.3)]' : ''}
           `}>
-             <div className={`w-16 h-16 rounded-full flex items-center justify-center bg-black/40 backdrop-blur-md shadow-inner`}>
-                <config.Icon className={`w-8 h-8 ${config.iconColor} drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]`} />
+             <div className={`w-20 h-20 rounded-full flex items-center justify-center bg-black/50 backdrop-blur-md shadow-inner`}>
+                <config.Icon className={`w-8 h-8 ${config.iconColor} drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]`} />
              </div>
-             {isFirst && hasName && (
+             {isFirst && (
                <motion.div 
                 animate={{ rotate: 360 }}
-                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 border border-[#c9a84c]/30 rounded-full border-dashed"
+                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 border border-[#c9a84c]/40 rounded-full border-dashed"
                ></motion.div>
              )}
           </div>
 
-          <h3 className="text-[#e8eaf0] font-bold font-sans text-xl mb-1 tracking-tight truncate max-w-full min-h-[1.75rem]">
+          <h3 className="text-[#e8eaf0] font-bold font-display text-2xl mb-2 tracking-tight truncate max-w-full min-h-[2rem]">
             {hasName ? MASK_USERNAME(player.username) : <span className="opacity-20">---</span>}
           </h3>
           
-          <div className="text-[#5a6178] text-[10px] uppercase tracking-[0.2em] mb-6 font-bold font-mono">
-            {wagerLabel}
-            <div className="text-[#8892aa] md:text-[#5a6178] text-sm font-mono mt-1 font-normal tracking-normal">
+          <div className="flex flex-col items-center gap-1 mb-6">
+            <span className="text-[#5a6178] text-[9px] uppercase tracking-[0.2em] font-bold font-mono">
+              {wagerLabel}
+            </span>
+            <span className="text-[#8892aa] text-sm font-mono tracking-tight">
               {formatValue(player.wagered)}
-            </div>
+            </span>
           </div>
 
           <div className={`
-            px-5 py-2 rounded-full font-bold text-sm font-mono relative overflow-hidden
-            bg-[#e8eaf0]/5 border border-[#1e2433] flex items-center justify-center gap-2
+            px-6 py-2.5 rounded-full font-bold text-sm font-display relative overflow-hidden
+            bg-white/5 border border-white/10 flex items-center justify-center gap-2
+            shadow-lg backdrop-blur-sm
             ${config.iconColor}
           `}>
-             {isFirst && <Sparkles size={12} className="animate-pulse" />}
+             {isFirst && <Sparkles size={14} className="animate-pulse" />}
              {formatValue(player.prize)}
+             {variant === 'JUICE' && ' COINS'}
           </div>
         </div>
       </div>
@@ -160,7 +171,7 @@ const Podium: React.FC<PodiumProps> = ({ players, variant = 'BETSTRIKE' }) => {
   if (players.length < 3) return null;
 
   return (
-    <div className="grid grid-cols-2 md:flex md:flex-row items-center md:items-end justify-center gap-4 md:gap-6 lg:gap-8 px-4 py-8 mb-16 min-h-[450px]">
+    <div className="grid grid-cols-2 md:flex md:flex-row items-center md:items-end justify-center gap-4 md:gap-8 lg:gap-10 px-4 py-8 mb-16 min-h-[450px]">
       <PodiumCard player={players[1]} position={2} variant={variant} />
       <PodiumCard player={players[0]} position={1} variant={variant} />
       <PodiumCard player={players[2]} position={3} variant={variant} />

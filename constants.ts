@@ -12,13 +12,13 @@ export const BONUSES: Bonus[] = [
     title: 'DEPOSIT BONUS',
     value: '10%',
     icon: 'Zap',
-    color: 'from-purple-500 to-indigo-600'
+    color: 'from-[#7c3aed] to-[#7c3aed]'
   },
   {
     title: 'LOSSBACK',
     value: '5%',
     icon: 'Shield',
-    color: 'from-blue-500 to-cyan-500'
+    color: 'from-[#3b82f6] to-[#1d4ed8]'
   }
 ];
 
@@ -35,16 +35,14 @@ export const LEADERBOARD_DATA: Record<Region, Player[]> = {
   GLOBAL: BETSTRIKE_REAL_DATA,
 };
 
-// Initial state for Juice.gg leaderboard (will be populated from API)
-// Fallback mock data for testing when API is unavailable
-// Prize distribution: 250, 150, 50, 25, 15, 10 (Total: 500 coins)
+// Empty names, 0 wagered, but keep prizes and positions
 export const JUICE_PLAYERS: Player[] = [
-  { rank: 1, username: 'player1', wagered: 3660, prize: 250, change: 'neutral' },
-  { rank: 2, username: 'player2', wagered: 1157, prize: 150, change: 'neutral' },
-  { rank: 3, username: 'player3', wagered: 690, prize: 50, change: 'neutral' },
-  { rank: 4, username: 'player4', wagered: 450, prize: 25, change: 'neutral' },
-  { rank: 5, username: 'player5', wagered: 320, prize: 15, change: 'neutral' },
-  { rank: 6, username: 'player6', wagered: 200, prize: 10, change: 'neutral' },
+  { rank: 1, username: '', wagered: 0, prize: 250, change: 'neutral' },
+  { rank: 2, username: '', wagered: 0, prize: 150, change: 'neutral' },
+  { rank: 3, username: '', wagered: 0, prize: 50, change: 'neutral' },
+  { rank: 4, username: '', wagered: 0, prize: 25, change: 'neutral' },
+  { rank: 5, username: '', wagered: 0, prize: 15, change: 'neutral' },
+  { rank: 6, username: '', wagered: 0, prize: 10, change: 'neutral' },
 ];
 
 export const MASK_USERNAME = (name: string) => {
