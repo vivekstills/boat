@@ -22,9 +22,9 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ players, variant = 
     return <Minus size={14} className="text-[#5a6178]" />;
   };
 
-  const formatValue = (val: number) => variant === 'JUICE' ? val.toString() : FORMAT_CURRENCY(val);
-  const prizeHeader = variant === 'JUICE' ? 'Coins' : 'Prize';
-  const showWagered = variant === 'BETSTRIKE';
+  const formatValue = (val: number) => FORMAT_CURRENCY(val);
+  const prizeHeader = variant === 'JUICE' ? 'Prize' : 'Prize';
+  const showWagered = true;
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 pb-20">
