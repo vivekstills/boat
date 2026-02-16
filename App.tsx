@@ -92,7 +92,7 @@ const App: React.FC = () => {
       desc: (
         <>
           Every bet under code{' '}
-          <span className="font-bold text-[#e8eaf0] bg-[#7c3aed]/20 border border-[#7c3aed]/50 px-2 py-0.5 rounded shadow-[0_0_15px_rgba(124,58,237,0.4)]">
+          <span className="font-bold text-[#e8eaf0] drop-shadow-[0_0_8px_rgba(124,58,237,0.8)]">
             BOAT
           </span>{' '}
           counts towards your score.
@@ -354,7 +354,11 @@ const App: React.FC = () => {
                       <div className="flex items-center gap-3 px-6 py-2.5 rounded-full bg-[#0e0e12]/60 border border-[#ffffff]/10 backdrop-blur-md shadow-xl">
                          <img src="https://juice.gg/favicon.ico" alt="Juice" className="w-4 h-4 grayscale opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                          <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-[#e8eaf0] uppercase">GANG × JUICE.GG</span>
-                         <div className="w-1.5 h-1.5 rounded-full bg-[#c9a84c] shadow-[0_0_10px_#c9a84c]"></div>
+                         {isLoadingJuice ? (
+                           <div className="w-1.5 h-1.5 rounded-full bg-[#c9a84c] animate-pulse shadow-[0_0_10px_#c9a84c]"></div>
+                         ) : (
+                           <div className="w-1.5 h-1.5 rounded-full bg-[#c9a84c] shadow-[0_0_10px_#c9a84c]"></div>
+                         )}
                       </div>
                     </div>
 
