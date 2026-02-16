@@ -511,7 +511,7 @@ const App: React.FC = () => {
             <div className="pt-8 border-t border-[#1e2433]">
               <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                 <p className="text-[#5a6178] text-xs">
-                  © {new Date().getFullYear()} Leaderboard.xyz. All rights reserved.
+                  © 2026 Leaderboard.xyz. All rights reserved.
                 </p>
                 <p className="text-slate-700 text-xs">
                   Made with 💜 for the community
