@@ -1,19 +1,19 @@
+// Restored content of App.tsx from commit 19980349534f62fb606ffe1ebfc8f72d8d8e9f16
+
 import React, { useState } from 'react';
 import TermsOfService from './TermsOfService';
-// Other imports
 
 const App = () => {
     const [tosOpen, setTosOpen] = useState(false);
 
     return (
-        <div>
+        <main>
             {/* Other components */}
             <footer>
-                {/* Other footer content */}
-                <button onClick={() => setTosOpen(true)}>Terms of Service</button>
+                <span onClick={() => setTosOpen(true)}>Terms of Service</span>
             </footer>
-            <TermsOfService open={tosOpen} onClose={() => setTosOpen(false)} />
-        </div>
+            <TermsOfService isOpen={tosOpen} onClose={() => setTosOpen(false)} />
+        </main>
     );
 };
 
