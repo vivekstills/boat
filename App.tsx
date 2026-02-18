@@ -1,8 +1,20 @@
+import React, { useState } from 'react';
 import TermsOfService from './TermsOfService';
-
 // Other imports
 
 const App = () => {
-    // other useState declarations
     const [tosOpen, setTosOpen] = useState(false);
-    // rest of the code
+
+    return (
+        <div>
+            {/* Other components */}
+            <footer>
+                {/* Other footer content */}
+                <button onClick={() => setTosOpen(true)}>Terms of Service</button>
+            </footer>
+            <TermsOfService open={tosOpen} onClose={() => setTosOpen(false)} />
+        </div>
+    );
+};
+
+export default App;
