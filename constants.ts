@@ -37,12 +37,12 @@ export const LEADERBOARD_DATA: Record<Region, Player[]> = {
 
 // Empty names, 0 wagered, but keep prizes and positions
 export const JUICE_PLAYERS: Player[] = [
-  { rank: 1, username: '', wagered: 0, prize: 250, change: 'neutral' },
-  { rank: 2, username: '', wagered: 0, prize: 150, change: 'neutral' },
-  { rank: 3, username: '', wagered: 0, prize: 50, change: 'neutral' },
-  { rank: 4, username: '', wagered: 0, prize: 25, change: 'neutral' },
-  { rank: 5, username: '', wagered: 0, prize: 15, change: 'neutral' },
-  { rank: 6, username: '', wagered: 0, prize: 10, change: 'neutral' },
+  { rank: 1, username: '', wagered: 0, prize: 250c, change: 'neutral' },
+  { rank: 2, username: '', wagered: 0, prize: 150c, change: 'neutral' },
+  { rank: 3, username: '', wagered: 0, prize: 50c, change: 'neutral' },
+  { rank: 4, username: '', wagered: 0, prize: 25c, change: 'neutral' },
+  { rank: 5, username: '', wagered: 0, prize: 15c, change: 'neutral' },
+  { rank: 6, username: '', wagered: 0, prize: 10c, change: 'neutral' },
 ];
 
 export const MASK_USERNAME = (name: string) => {
