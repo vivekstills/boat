@@ -25,10 +25,10 @@ export const BONUSES: Bonus[] = [
 // Specific data from screenshot
 const BETSTRIKE_REAL_DATA: Player[] = [
   { rank: 1, username: 'niggaboy', wagered: 3660, prize: 500, change: 'neutral' },
-  { rank: 2, username: 'angelofdeath', wagered: 1803, prize: 250, change: 'neutral' },
+  { rank: 2, username: 'angelofdeath', wagered: 1808, prize: 250, change: 'neutral' },
   { rank: 3, username: 'Boatmom', wagered: 1670, prize: 125, change: 'neutral' },
   { rank: 4, username: 'Omixboat', wagered: 1157, prize: 75, change: 'neutral' },
-  { rank: 5, username: 'Optimnob', wagered: 731, prize: 50, change: 'neutral' },
+  { rank: 5, username: 'Optimnob', wagered: 794, prize: 50, change: 'neutral' },
 ];
 
 export const LEADERBOARD_DATA: Record<Region, Player[]> = {
