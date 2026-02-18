@@ -4,7 +4,7 @@ export const TARGET_DATE = '2026-03-10T00:00:00';
 export const REFERRAL_CODE = 'BOAT';
 export const REFERRAL_LINK = 'https://betstrike.com/ref/boat';
 export const JUICE_LINK = 'https://juice.gg/r/gang';
-export const DISCORD_LINK = 'https://discord.gg/meMNuXha';
+export const DISCORD_LINK = 'https://discord.gg/ZKcqVpYhRv';
 export const KICK_LINK = 'https://kick.com/imboat';
 
 export const BONUSES: Bonus[] = [
