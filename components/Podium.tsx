@@ -9,7 +9,7 @@ interface PodiumProps {
   variant?: 'BETSTRIKE' | 'DUEL' | ;
 }
 
-const PodiumCard: React.FC<{ player: Player; position: number; variant: 'BETSTRIKE' | 'JUICE' }> = ({ player, position, variant }) => {
+const PodiumCard: React.FC<{ player: Player; position: number; variant: 'BETSTRIKE' | 'DUEL' }> = ({ player, position, variant }) => {
   const isFirst = position === 1;
   const isSecond = position === 2;
   const isThird = position === 3;
@@ -68,8 +68,8 @@ const PodiumCard: React.FC<{ player: Player; position: number; variant: 'BETSTRI
     };
   }
 
-  const formatValue = (val: number) => variant === 'JUICE' ? val.toString() : FORMAT_CURRENCY(val);
-  const wagerLabel = variant === 'JUICE' ? 'WAGERED' : 'WAGERED';
+  const formatValue = (val: number) => variant === 'DUEL' ? val.toString() : FORMAT_CURRENCY(val);
+  const wagerLabel = variant === 'DUEL' ? 'WAGERED' : 'WAGERED';
   
   const hasName = player.username && player.username.length > 0;
 
