@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
 interface PodiumProps {
   players: Player[];
-  variant?: 'BETSTRIKE' | 'JUICE';
+  variant?: 'BETSTRIKE' | 'DUEL' | ;
 }
 
 const PodiumCard: React.FC<{ player: Player; position: number; variant: 'BETSTRIKE' | 'JUICE' }> = ({ player, position, variant }) => {
